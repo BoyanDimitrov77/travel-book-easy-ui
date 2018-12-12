@@ -115,7 +115,7 @@ class CreateFlight extends Component{
             <AppNavBar isAdmin={this.props.isAdmin} isAuthenticated={this.props.isAuthenticated}/>
             {
             this.props.isAuthenticated ? (
-            <Container className= "LoginForm">
+            <Container className= "ContainerForm">
 
             <h2>Create Flight</h2>
 

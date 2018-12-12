@@ -6,6 +6,7 @@ import Login from './login/Login';
 import CreateFlight from './admin/CreateFlight';
 import CreateTrain from './admin/CreateTrain';
 import CreateBus from './admin/CreateBus';
+import CreateCompany from './admin/CreateCompany';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -58,6 +59,9 @@ class App extends Component {
 
                 <Route path="/createBus"
                   render={(props) => <CreateBus isAdmin={true} isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
+
+                  <Route path="/createCompany"
+                    render={(props) => <CreateCompany isAdmin={true} isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
 
 
         </Switch>
