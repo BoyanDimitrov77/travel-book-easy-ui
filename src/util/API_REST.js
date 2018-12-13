@@ -125,7 +125,7 @@ export function createBus(createBusRequest){
       })
   );
 
-}
+};
 
 export function getAllCompany(){
   var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
@@ -135,6 +135,57 @@ export function getAllCompany(){
     method: 'GET',
     headers: { 'Content-Type': 'application/json',
                 'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+
+export function createCompany(createBusRequest){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/company/create/createCompanyRecord",
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+                'Authorization' : auth },
+    body: JSON.stringify(createBusRequest)
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+export function uploadCompanyLogo(companyLogo, companyId){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/company/uploadCompanyLogo/" + companyId,
+    method: 'POST',
+     headers: {
+                 'Authorization' : auth },
+    body: companyLogo
 
   }
 

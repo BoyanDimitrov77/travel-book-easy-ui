@@ -96,7 +96,7 @@ class CreateBus extends Component{
           <AppNavBar isAdmin={this.props.isAdmin} isAuthenticated={this.props.isAuthenticated}/>
           {
           this.props.isAuthenticated ? (
-          <Container className= "LoginForm">
+          <Container className= "ContainerForm">
 
           <h2>Create Bus</h2>
 

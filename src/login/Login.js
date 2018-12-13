@@ -61,7 +61,7 @@ class Login extends Component{
       login(loginRequest)
       .then(response => {
           var isUser =  response.userRole.find(e => {
-              if(e.localeCompare("USER") === 0){
+              if(e.localeCompare("ROLE_USER") === 0){
                 return true;
               }
               return false;
@@ -69,7 +69,7 @@ class Login extends Component{
           });
 
           var isAdmin =  response.userRole.find(e => {
-              if(e.localeCompare("ADMIN") === 0){
+              if(e.localeCompare("ROLE_ADMIN") === 0){
                 return true;
               }
               return false;
@@ -102,7 +102,7 @@ class Login extends Component{
       return (
         <div>
           <AppNavBar/>
-          <Container className= "LoginForm">
+          <Container className= "ContainerForm">
 
           <h2>Sign In</h2>
                 <Form className="form" onSubmit={ (e) => this.submitForm(e) }>
