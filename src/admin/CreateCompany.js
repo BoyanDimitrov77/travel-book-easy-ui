@@ -3,16 +3,15 @@ import AppNavBar from '../common/AppNavBar';
 import {Container, Col,
 Button, Alert, Label } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { createCompany, uploadCompanyLogo} from '../util/API_REST';
 import ImageUploadComponent from '../common/ImageUploadComponent'
+import { createCompany } from '../store/actions/companyActions'
+import { connect } from 'react-redux';
 
 class CreateCompany extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-      file : '',
-      imagePreviewUrl : '',
       'name':'',
       isSuccessfullOperation : false,
       showOperationStatusMessage : false
@@ -27,60 +26,15 @@ class CreateCompany extends Component{
      await this.setState({
        [ name ]: value,
      });
-
-
-     if (["imageClass"].includes(target.className)) {
-
-       let reader = new FileReader();
-       let file = target.files[0];
-
-       reader.onloadend = () =>{
-         this.setState({
-           file : file,
-           imagePreviewUrl : reader.result
-         });
-       }
-
-       reader.readAsDataURL(file);
-     }
-
   }
 
   handleValidSubmit(e) {
     e.persist();
     const createCompanyRequest = Object.assign({}, this.state);
     console.log(createCompanyRequest);
-    const formData = new FormData();
-    formData.append('file',createCompanyRequest.file);
-      createCompany(createCompanyRequest)
-      .then(response => {
-        console.log(formData);
-            console.log(response);
-              uploadCompanyLogo(formData,response.id )
-              .then(response=>{
-                this.setState({
-                  isSuccessfullOperation : true,
-                  showOperationStatusMessage: true,
-                });
+    console.log(this.props.imageFile);
 
-              }).catch(error=>{
-                if(error.status === 500) {
-                  this.setState({
-                    isSuccessfullOperation : false,
-                    showOperationStatusMessage :true,
-                  });
-
-                }
-              });
-          }).catch(error => {
-              if(error.status === 500) {
-                this.setState({
-                  isSuccessfullOperation : false,
-                  showOperationStatusMessage :true,
-                });
-
-              }
-          });
+    this.props.createCompany(createCompanyRequest, this.props.imageFile);
   }
 
   handleInvalidSubmit(e){
@@ -98,8 +52,8 @@ class CreateCompany extends Component{
 
           <h2>Create Company</h2>
 
-            {this.state.showOperationStatusMessage ? (
-              this.state.isSuccessfullOperation ?
+            {this.props.showOperationStatusMessage ? (
+              this.props.isSuccessfullOperation ?
                 (<Alert className="statusMessage" color="success"> Successfull operation. </Alert>) :
               (<Alert className="statusMessage" color="danger"> Sorry! Something went wrong. Please try again! </Alert>)
             ) :
@@ -108,7 +62,7 @@ class CreateCompany extends Component{
 
                 <Col>
                    <Label for="CompanyLogo">Company logo</Label>
-                    <ImageUploadComponent handleChange ={this.handleChange} {...this.state} />
+                    <ImageUploadComponent />
                 </Col>
 
 
@@ -135,8 +89,21 @@ class CreateCompany extends Component{
       );
 
   }
-
-
 }
 
-export default CreateCompany;
+const mapStateToProps = (state) =>{
+  return {
+    imageFile : state.image.imageFile,
+    showOperationStatusMessage : state.companies.showOperationStatusMessage,
+    isSuccessfullOperation : state.companies.isSuccessfullOperation
+  }
+}
+
+const mapDispactchToProps = (dispatch) =>{
+  return {
+    createCompany : (company, imageFile) => dispatch(createCompany(company, imageFile))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispactchToProps) (CreateCompany);

@@ -3,9 +3,11 @@ import AppNavBar from '../common/AppNavBar';
 import {Container, Col,
 Button, Alert } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { createFlight, getAllCompany } from '../util/API_REST';
 import CreateTravelClass from './CreateTravelClass';
-
+import { connect } from 'react-redux';
+import { createFlight } from '../store/actions/flightActions';
+import { getAllCompany } from '../store/actions/companyActions';
+import { addTravelClass } from '../store/actions/traveClassActions'
 
 class CreateFlight extends Component{
 
@@ -20,25 +22,17 @@ class CreateFlight extends Component{
       'arriveDate': '',
       'arriveTime': '',
       'price': '',
-      travelClasses :[{'travelClass':'', 'maxSeats': '', 'price': ''}],
       isSuccessfullOperation : false,
       showOperationStatusMessage : false,
-      companies :[],
       'selectedCompanyId':'',
 
     }
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount(){
-    getAllCompany()
-    .then(response =>{
-      console.log(response);
-      this.setState({
-        companies: response,
-      })
-    });
-  }
+   componentDidMount(){
+     this.props.companyList(this.state);
+   }
 
     handleChange = async (event) => {
        const { target } = event;
@@ -47,42 +41,25 @@ class CreateFlight extends Component{
        await this.setState({
          [ name ]: value,
        });
-      if (["travelClass", "maxSeats", "price" ].includes(target.className.substr(0, target.className.indexOf(" ")))) {
-            let travelClasses = [...this.state.travelClasses]
-            travelClasses[target.dataset.id][target.className.substr(0, target.className.indexOf(" "))] = target.value
-            this.setState({ travelClasses }, () => console.log(this.state.travelClasses))
-          }
     }
 
     handleValidSubmit(e) {
       e.persist();
       const createFlightRequest = Object.assign({}, this.state);
       var locationFromObject = {
-        'name': this.state.locationFrom
-      }
-      var locationToObject = {
-        'name': this.state.locationTo
-      }
-      createFlightRequest["departDate"] = createFlightRequest["departDate"] + "T"+ createFlightRequest["departTime"];
-      createFlightRequest["arriveDate"] = createFlightRequest["arriveDate"] + "T"+ createFlightRequest["arriveTime"];
-      createFlightRequest["locationFrom"] = locationFromObject;
-      createFlightRequest["locationTo"] = locationToObject;
-      console.log(createFlightRequest);
-       createFlight(createFlightRequest)
-       .then(response => {
-              this.setState({
-                isSuccessfullOperation : true,
-                showOperationStatusMessage: true,
-              });
-           }).catch(error => {
-               if(error.status === 500) {
-                 this.setState({
-                   isSuccessfullOperation : false,
-                   showOperationStatusMessage :true,
-                 });
+         'name': this.state.locationFrom
+       }
+       var locationToObject = {
+         'name': this.state.locationTo
+       }
+       createFlightRequest["departDate"] = createFlightRequest["departDate"] + "T"+ createFlightRequest["departTime"];
+       createFlightRequest["arriveDate"] = createFlightRequest["arriveDate"] + "T"+ createFlightRequest["arriveTime"];
+       createFlightRequest["locationFrom"] = locationFromObject;
+       createFlightRequest["locationTo"] = locationToObject;
+       createFlightRequest["travelClasses"] = this.props.travelClasses;
 
-               }
-           });
+       console.log(createFlightRequest);
+       this.props.createFlight(createFlightRequest);
 
     }
 
@@ -91,21 +68,12 @@ class CreateFlight extends Component{
     }
 
     addTravelClass = (e)=>{
-      this.setState((preveState)=>({
-        travelClasses: [...preveState.travelClasses, {'travelClass':'', 'maxSeats': '', 'price': ''}],
-      }));
+      this.props.addTravelClass({'travelClass':'', 'maxSeats': '', 'price': ''});
     }
 
-    removeTravelClass = (idx) => () => {
-    this.setState({
-      travelClasses: this.state.travelClasses.filter((s, sidx) => idx !== sidx)
-    });
-  }
 
     render() {
-
-       const { travelClasses, companies } = this.state;
-
+       const companies = this.props.companies;
        const companyOption = companies.map((company)=>
         <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
         );
@@ -119,20 +87,20 @@ class CreateFlight extends Component{
 
             <h2>Create Flight</h2>
 
-              {this.state.showOperationStatusMessage ? (
-                this.state.isSuccessfullOperation ?
+              {this.props.flight.showOperationStatusMessage ? (
+                this.props.flight.isSuccessfullOperation ?
                   (<Alert className="statusMessage" color="success"> Successfull operation. </Alert>) :
                 (<Alert className="statusMessage" color="danger"> Sorry! Something went wrong. Please try again! </Alert>)
               ) :
               (
                 <AvForm className="form"  onValidSubmit={ (e) => this.handleValidSubmit(e) } onInvalidSubmit={ (e) => this.handleInvalidSubmit(e) } >
                   <Col>
-                    <AvField type="select" value={this.state.companyId} name="selectedCompanyId" label="Company"
+                    <AvField type="select" value="{this.state.companyId}" name="selectedCompanyId" label="Company"
                       onChange={ (e) => {
                                 this.handleChange(e)
                               } }>
                               <option/>
-                        {companyOption}
+                            {companyOption}
                     </AvField>
 
                   </Col>
@@ -211,7 +179,7 @@ class CreateFlight extends Component{
                   </Col>
                   <Col>
                     <Button onClick={this.addTravelClass}>Add new travel class</Button>
-                    <CreateTravelClass  handleChange ={this.handleChange} removeTravelClass={this.removeTravelClass} travelClasses={travelClasses} />
+                    <CreateTravelClass />
                   </Col>
                   <Button>Submit</Button>
 
@@ -226,4 +194,20 @@ class CreateFlight extends Component{
 
 }
 
-export default CreateFlight;
+const mapStateToProps = (state) => {
+  return {
+    flight : state.flight,
+    companies : state.companies.companies,
+    travelClasses : state.travelClasses.travelClasses
+  }
+}
+
+const mapDispactchToProps = (dispatch) =>{
+  return {
+    createFlight : (flight) => dispatch(createFlight(flight)),
+    companyList : (companies) => dispatch(getAllCompany(companies)),
+    addTravelClass : (travelClass) => dispatch(addTravelClass(travelClass))
+  }
+}
+
+export default connect(mapStateToProps, mapDispactchToProps)(CreateFlight);

@@ -3,7 +3,9 @@ import AppNavBar from '../common/AppNavBar';
 import {Container, Col,
 Button, Alert } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { createBus, getAllCompany } from '../util/API_REST';
+import { connect } from 'react-redux';
+import { createBus } from '../store/actions/busActions'
+import { getAllCompany } from '../store/actions/companyActions'
 
 class CreateBus extends Component{
 
@@ -20,7 +22,6 @@ class CreateBus extends Component{
       'price': '',
       isSuccessfullOperation : false,
       showOperationStatusMessage : false,
-      companies :[],
       'selectedCompanyId':'',
 
     }
@@ -28,13 +29,7 @@ class CreateBus extends Component{
   }
 
   componentDidMount(){
-    getAllCompany()
-    .then(response =>{
-      console.log(response);
-      this.setState({
-        companies: response,
-      })
-    });
+    this.props.companyList(this.state);
   }
 
   handleChange = async (event) => {
@@ -60,22 +55,8 @@ class CreateBus extends Component{
     createBusRequest["arriveDate"] = createBusRequest["arriveDate"] + "T"+ createBusRequest["arriveTime"];
     createBusRequest["locationFrom"] = locationFromObject;
     createBusRequest["locationTo"] = locationToObject;
-    console.log(createBusRequest);
-     createBus(createBusRequest)
-     .then(response => {
-            this.setState({
-              isSuccessfullOperation : true,
-              showOperationStatusMessage: true,
-            });
-         }).catch(error => {
-             if(error.status === 500) {
-               this.setState({
-                 isSuccessfullOperation : false,
-                 showOperationStatusMessage :true,
-               });
 
-             }
-         });
+    this.props.createBus(createBusRequest);
 
   }
 
@@ -85,8 +66,7 @@ class CreateBus extends Component{
 
   render() {
 
-     const {companies } = this.state;
-
+     const companies = this.props.companies;
      const companyOption = companies.map((company)=>
       <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
       );
@@ -100,8 +80,8 @@ class CreateBus extends Component{
 
           <h2>Create Bus</h2>
 
-            {this.state.showOperationStatusMessage ? (
-              this.state.isSuccessfullOperation ?
+            {this.props.bus.showOperationStatusMessage ? (
+              this.props.bus.isSuccessfullOperation ?
                 (<Alert className="statusMessage" color="success"> Successfull operation. </Alert>) :
               (<Alert className="statusMessage" color="danger"> Sorry! Something went wrong. Please try again! </Alert>)
             ) :
@@ -200,8 +180,20 @@ class CreateBus extends Component{
         </div>
       );
     }
-
-
 }
 
-export default CreateBus;
+const mapStateToProps = (state) => {
+  return {
+    bus : state.bus,
+    companies : state.companies.companies
+  }
+}
+
+const mapDispactchToProps = (dispatch) =>{
+  return {
+    createBus : (bus) => dispatch(createBus(bus)),
+    companyList : (companies) => dispatch(getAllCompany(companies))
+  }
+}
+
+export default connect(mapStateToProps, mapDispactchToProps) (CreateBus);

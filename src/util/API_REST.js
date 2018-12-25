@@ -52,7 +52,7 @@ export function login(loginRequest) {
 
 };
 
-export function createFlight(createFlightRequest){
+export function createFlightRequest(createFlightRequest){
     var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
 
     const options = {
@@ -76,7 +76,7 @@ export function createFlight(createFlightRequest){
 
 };
 
-export function createTrain(createTrainRequest){
+export function createTrainRequest(createTrainRequest){
 
 
   var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
@@ -102,7 +102,7 @@ export function createTrain(createTrainRequest){
 
 };
 
-export function createBus(createBusRequest){
+export function createBusRequest(createBusRequest){
 
   var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
 
@@ -127,7 +127,7 @@ export function createBus(createBusRequest){
 
 };
 
-export function getAllCompany(){
+export function allCompany(){
   var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
 
   const options = {
@@ -151,7 +151,7 @@ export function getAllCompany(){
 };
 
 
-export function createCompany(createBusRequest){
+export function createCompanyRequest(createCompanyRequest){
 
   var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
 
@@ -160,7 +160,7 @@ export function createCompany(createBusRequest){
     method: 'POST',
     headers: { 'Content-Type': 'application/json',
                 'Authorization' : auth },
-    body: JSON.stringify(createBusRequest)
+    body: JSON.stringify(createCompanyRequest)
 
   }
 
