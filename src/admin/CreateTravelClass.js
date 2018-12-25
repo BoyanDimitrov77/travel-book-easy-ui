@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import {AvField } from 'availity-reactstrap-validation';
 import {Button} from 'reactstrap';
+import { connect } from 'react-redux';
+import { removeTraveClass, updateTravelClassField } from '../store/actions/traveClassActions'
 import './TravelClass.css';
 
 class CreateTravelClass extends Component{
 
+  handleChange = async (event, idx) => {
+     const { target } = event;
+     const value = target.type === 'checkbox' ? target.checked : target.value;
+     this.props.updateTravelClassField(target.classList[0], value, idx);
+  }
+
+  removeTravelClass = (idx) => () => {
+    this.props.removeTravelClass(idx);
+}
+
       render(){
+        console.log(this.props)
             return (
             this.props.travelClasses.map((val, idx)=> {
               let travelClassId = `travelClass-${idx}`, maxSeatsId = `maxSeats-${idx}`, priceId = `price-${idx}`
@@ -16,7 +29,7 @@ class CreateTravelClass extends Component{
                       pattern: {value: '^[A-Za-z]+$'}
                     }}
                     onChange={ (e) => {
-                                this.props.handleChange(e)
+                                this.handleChange(e, idx )
                               } }/>
 
                     <AvField  className= "maxSeats" name={maxSeatsId} id={maxSeatsId} data-id={idx} value={this.props.travelClasses[idx].maxSeats} label= "Max seats" type="text" errorMessage="Invalid maxseats" validate={{
@@ -24,7 +37,7 @@ class CreateTravelClass extends Component{
                         pattern: {value: '^[0-9]+$'}
                       }}
                        onChange={ (e) => {
-                                    this.props.handleChange(e)
+                                    this.handleChange(e, idx)
                                   } }/>
 
                       <AvField  className="price" name={priceId} id={priceId} data-id={idx} value={this.props.travelClasses[idx].price} label="Price" type="text" errorMessage="Invalid price" validate={{
@@ -32,12 +45,12 @@ class CreateTravelClass extends Component{
                           pattern: {value: '^[0-9]+$'}
                         }}
                          onChange={ (e) => {
-                                      this.props.handleChange(e)
+                                      this.handleChange(e, idx)
                                     } }/>
 
                         {
                           idx !== 0 ?(
-                              <Button className="removeButton" color="danger" onClick={this.props.removeTravelClass(idx)}>Delete</Button>
+                              <Button className="removeButton" color="danger" onClick={this.removeTravelClass(idx)}>Delete</Button>
                           ): null
                         }
 
@@ -48,5 +61,19 @@ class CreateTravelClass extends Component{
       }
 }
 
+const mapStateToProps = (state) =>{
+  console.log(state);
+  return{
+      travelClasses : state.travelClasses.travelClasses
+  }
+}
 
-export default CreateTravelClass;
+const mapDispactchToProps = (dispatch) =>{
+  return {
+    removeTravelClass : (travelClassId) =>dispatch(removeTraveClass(travelClassId)),
+    updateTravelClassField : (fieldName, fieldValue, travelClassId) => dispatch(updateTravelClassField(fieldName, fieldValue, travelClassId))
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispactchToProps)(CreateTravelClass);

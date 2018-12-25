@@ -3,8 +3,11 @@ import AppNavBar from '../common/AppNavBar';
 import {Container, Col,
 Button, Alert } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import { createTrain, getAllCompany } from '../util/API_REST';
+import { connect } from 'react-redux'
 import CreateTravelClass from './CreateTravelClass';
+import { createTrain } from '../store/actions/trainActions';
+import { getAllCompany } from '../store/actions/companyActions';
+import { addTravelClass } from '../store/actions/traveClassActions'
 
 class CreateTrain extends Component{
 
@@ -19,10 +22,8 @@ class CreateTrain extends Component{
       'arriveDate': '',
       'arriveTime': '',
       'price': '',
-      travelClasses :[{'travelClass':'', 'maxSeats': '', 'price': ''}],
       isSuccessfullOperation : false,
       showOperationStatusMessage : false,
-      companies :[],
       'selectedCompanyId':'',
 
     }
@@ -30,13 +31,7 @@ class CreateTrain extends Component{
   }
 
   componentDidMount(){
-    getAllCompany()
-    .then(response =>{
-      console.log(response);
-      this.setState({
-        companies: response,
-      })
-    });
+     this.props.companyList(this.state);
   }
 
   handleChange = async (event) => {
@@ -46,11 +41,6 @@ class CreateTrain extends Component{
      await this.setState({
        [ name ]: value,
      });
-    if (["travelClass", "maxSeats", "price" ].includes(target.className.substr(0, target.className.indexOf(" ")))) {
-          let travelClasses = [...this.state.travelClasses]
-          travelClasses[target.dataset.id][target.className.substr(0, target.className.indexOf(" "))] = target.value
-          this.setState({ travelClasses }, () => console.log(this.state.travelClasses))
-        }
   }
 
   handleValidSubmit(e) {
@@ -66,23 +56,10 @@ class CreateTrain extends Component{
     createTrainRequest["arriveDate"] = createTrainRequest["arriveDate"] + "T"+ createTrainRequest["arriveTime"];
     createTrainRequest["locationFrom"] = locationFromObject;
     createTrainRequest["locationTo"] = locationToObject;
+    createTrainRequest["travelClasses"] = this.props.travelClasses;
+
+    this.props.createTrain(createTrainRequest);
     console.log(createTrainRequest);
-     createTrain(createTrainRequest)
-     .then(response => {
-            this.setState({
-              isSuccessfullOperation : true,
-              showOperationStatusMessage: true,
-            });
-         }).catch(error => {
-             if(error.status === 500) {
-               this.setState({
-                 isSuccessfullOperation : false,
-                 showOperationStatusMessage :true,
-               });
-
-             }
-         });
-
   }
 
   handleInvalidSubmit(e){
@@ -90,21 +67,12 @@ class CreateTrain extends Component{
   }
 
   addTravelClass = (e)=>{
-    this.setState((preveState)=>({
-      travelClasses: [...preveState.travelClasses, {'travelClass':'', 'maxSeats': '', 'price': ''}],
-    }));
+    this.props.addTravelClass({'travelClass':'', 'maxSeats': '', 'price': ''});
   }
-
-  removeTravelClass = (idx) => () => {
-  this.setState({
-    travelClasses: this.state.travelClasses.filter((s, sidx) => idx !== sidx)
-  });
-}
 
   render() {
 
-     const { travelClasses, companies } = this.state;
-
+     const companies = this.props.companies;
      const companyOption = companies.map((company)=>
       <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
       );
@@ -118,8 +86,8 @@ class CreateTrain extends Component{
 
           <h2>Create Train</h2>
 
-            {this.state.showOperationStatusMessage ? (
-              this.state.isSuccessfullOperation ?
+            {this.props.train.showOperationStatusMessage ? (
+              this.props.train.isSuccessfullOperation ?
                 (<Alert className="statusMessage" color="success"> Successfull operation. </Alert>) :
               (<Alert className="statusMessage" color="danger"> Sorry! Something went wrong. Please try again! </Alert>)
             ) :
@@ -210,7 +178,7 @@ class CreateTrain extends Component{
                 </Col>
                 <Col>
                   <Button onClick={this.addTravelClass}>Add new travel class</Button>
-                  <CreateTravelClass  handleChange ={this.handleChange} removeTravelClass={this.removeTravelClass} travelClasses={travelClasses} />
+                  <CreateTravelClass />
                 </Col>
                 <Button>Submit</Button>
 
@@ -226,4 +194,20 @@ class CreateTrain extends Component{
 
 }
 
-export default CreateTrain;
+const mapStateToProps = (state) => {
+  return {
+    train : state.train,
+    companies : state.companies.companies,
+    travelClasses : state.travelClasses.travelClasses
+  }
+}
+
+const mapDispactchToProps = (dispatch) =>{
+  return {
+    createTrain : (train) => dispatch(createTrain(train)),
+    companyList : (companies) => dispatch(getAllCompany(companies)),
+    addTravelClass : (travelClass) => dispatch(addTravelClass(travelClass))
+  }
+}
+
+export default connect(mapStateToProps, mapDispactchToProps) (CreateTrain);

@@ -33,7 +33,7 @@ class Login extends Component{
     }
 
     validatePassword(e){
-      const passRex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+      const passRex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%^&*])(?=.{8,})/;
       const { validate } = this.state;
       if(passRex.test(e.target.value)){
         validate.passwordState = 'has-success';
@@ -157,7 +157,6 @@ class Login extends Component{
                   </Col>
                   <Button>Submit</Button>
               </Form>
-
           </Container>
         </div>
       );
