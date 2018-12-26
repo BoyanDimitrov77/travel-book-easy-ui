@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { connect } from 'react-redux';
 
 class AppNavBar extends Component{
 
@@ -27,17 +28,20 @@ class AppNavBar extends Component{
     });
   }
 render(){
+  const authUser = this.props.authUser;
   const isAdmin = this.props.isAdmin;
-  const isAuthenticated = this.props.isAuthenticated;
+  console.log("isAdmin:" + isAdmin);
+  console.log("authUser" + authUser);
+
   let navLoginLink;
 
-  if(!isAdmin && !isAuthenticated){
+  if(!authUser){
       navLoginLink = <NavLink href="/login/">Login</NavLink>;
   }
 
   let profileLink;
 
-  if(isAuthenticated){
+  if(authUser){
     profileLink = <NavLink href="/userProfile/">Profile</NavLink>;
   }
 
@@ -65,6 +69,15 @@ render(){
 
   }
 
+  let flightsLink;
+  let busesLink;
+  let trainsLink;
+  if(!isAdmin && authUser){
+    flightsLink = <NavLink href="/flights/">Flights</NavLink>
+    busesLink = <NavLink href="/buses/">Buses</NavLink>
+    trainsLink = <NavLink href="/trains/">Trains</NavLink>
+  }
+
   return (
         <div>
           <Navbar color="light" light expand="md">
@@ -72,6 +85,15 @@ render(){
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
+                <NavItem>
+                    {flightsLink}
+                </NavItem>
+                <NavItem>
+                    {busesLink}
+                </NavItem>
+                <NavItem>
+                    {trainsLink}
+                </NavItem>
                 <NavItem>
                     {navLoginLink}
                 </NavItem>
@@ -88,4 +110,11 @@ render(){
 
 }
 
-export default AppNavBar;
+const mapStateToProps = (state) =>{
+  return {
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
+  }
+}
+
+export default connect(mapStateToProps) (AppNavBar);
