@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import Home from './home/Home';
-import Login from './login/Login';
+import SignIn from './login/SignIn';
 import CreateFlight from './admin/CreateFlight';
 import CreateTrain from './admin/CreateTrain';
 import CreateBus from './admin/CreateBus';
 import CreateCompany from './admin/CreateCompany';
+import Flights from './components/Flights'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -16,10 +17,7 @@ class App extends Component {
         <Switch>
           <Route path='/' exact={true} component={Home}/>
           <Route path="/login"
-                   render={(props) => <Login/>}></Route>
-
-           <Route path="/admin"
-              render={(props) => <Home isAdmin={true} isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
+                   render={(props) => <SignIn/>}></Route>
 
             <Route path="/CreateFlight"
                render={(props) => <CreateFlight/>}></Route>
@@ -32,6 +30,9 @@ class App extends Component {
 
                   <Route path="/createCompany"
                     render={(props) => <CreateCompany />}></Route>
+
+                  <Route path="/flights"
+                      render={(props) => <Flights />}></Route>
 
 
         </Switch>

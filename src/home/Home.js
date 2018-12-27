@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import AppNavBar from '../common/AppNavBar';
-import { Link } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 
@@ -13,9 +11,6 @@ class Home extends Component{
       return (
         <div>
               <AppNavBar/>
-              <Container fluid>
-                  <Button color="link"><Link to="/groups">Manage JUG Tour</Link></Button>
-              </Container>
         </div>
       );
     }

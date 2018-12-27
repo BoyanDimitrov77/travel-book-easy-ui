@@ -5,7 +5,8 @@ FormGroup, Label, Input,
 Button, FormText, FormFeedback, Alert } from 'reactstrap';
 import './Login.css';
 import { connect } from 'react-redux';
-import { signIn } from '../store/actions/authActions';
+import { signIn} from '../store/actions/authActions';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component{
 
@@ -60,41 +61,6 @@ class Login extends Component{
     if(validate.emailState === 'has-success' || validate.passwordState === 'has-success'){
       const loginRequest = Object.assign({}, this.state);
       this.props.signIn(loginRequest);
-      // login(loginRequest)
-      // .then(response => {
-      //     var isUser =  response.userRole.find(e => {
-      //         if(e.localeCompare("ROLE_USER") === 0){
-      //           return true;
-      //         }
-      //         return false;
-      //
-      //     });
-      //
-      //     var isAdmin =  response.userRole.find(e => {
-      //         if(e.localeCompare("ROLE_ADMIN") === 0){
-      //           return true;
-      //         }
-      //         return false;
-      //
-      //     });
-      //
-      //     if(isAdmin){
-      //       this.props.onLogin(response);
-      //       this.props.history.push("/admin");
-      //     }else if(isUser){
-      //       this.props.onLogin(response);
-      //       this.props.history.push("/");
-      //     }
-      //
-      //     console.log("isUser:"+isUser);
-      //
-      // }).catch(error => {
-      //     if(error.status === 401) {
-      //       console.log("Your Username or Password is incorrect. Please try again!");
-      //     } else {
-      //         console.log("Sorry! Something went wrong. Please try again!");
-      //     }
-      // });
 
     }
   }
@@ -102,6 +68,9 @@ class Login extends Component{
   render() {
     const { email, password } = this.state;
     const {authError} = this.props;
+
+      if(this.props.authUser) return <Redirect to='/' />
+
       return (
         <div>
           <AppNavBar/>
@@ -171,7 +140,8 @@ class Login extends Component{
 
 const mapStateToProps = (state) =>{
   return{
-    authError : state.auth.authError
+    authError : state.auth.authError,
+    authUser : state.auth.user
   }
 }
 

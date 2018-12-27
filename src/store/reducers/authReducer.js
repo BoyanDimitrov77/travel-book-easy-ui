@@ -1,4 +1,3 @@
-
 const initState = {
   authError : null,
   isAdmin : false
@@ -7,7 +6,6 @@ const initState = {
 const authReducer = (state = initState, action) => {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
-    console.log("success login", action.user);
       return {
         ...state,
         authError : null,

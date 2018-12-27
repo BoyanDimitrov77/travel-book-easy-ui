@@ -6,6 +6,7 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { createBus } from '../store/actions/busActions'
 import { getAllCompany } from '../store/actions/companyActions'
+import { Redirect } from 'react-router-dom';
 
 class CreateBus extends Component{
 
@@ -71,11 +72,13 @@ class CreateBus extends Component{
       <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
       );
 
+      if(!this.props.authUser) return <Redirect to='/login' />
+      if(!this.props.isAdmin) return <Redirect to='/' />
+
       return (
         <div>
           <AppNavBar/>
-          {
-          this.props.isAuthenticated ? (
+
           <Container className= "ContainerForm">
 
           <h2>Create Bus</h2>
@@ -175,8 +178,7 @@ class CreateBus extends Component{
             </AvForm>
               )
            }
-          </Container>) : null
-        }
+          </Container>
         </div>
       );
     }
@@ -185,7 +187,9 @@ class CreateBus extends Component{
 const mapStateToProps = (state) => {
   return {
     bus : state.bus,
-    companies : state.companies.companies
+    companies : state.companies.companies,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 

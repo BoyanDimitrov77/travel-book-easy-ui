@@ -6,6 +6,7 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import ImageUploadComponent from '../common/ImageUploadComponent'
 import { createCompany } from '../store/actions/companyActions'
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 class CreateCompany extends Component{
 
@@ -42,12 +43,12 @@ class CreateCompany extends Component{
   }
 
   render(){
+    if(!this.props.authUser) return <Redirect to='/login' />
+    if(!this.props.isAdmin) return <Redirect to='/' />
 
       return (
         <div>
           <AppNavBar/>
-          {
-          this.props.isAuthenticated ? (
           <Container className= "ContainerForm">
 
           <h2>Create Company</h2>
@@ -82,8 +83,7 @@ class CreateCompany extends Component{
             </AvForm>
               )
            }
-          </Container>) : null
-        }
+          </Container>
         </div>
 
       );
@@ -95,7 +95,9 @@ const mapStateToProps = (state) =>{
   return {
     imageFile : state.image.imageFile,
     showOperationStatusMessage : state.companies.showOperationStatusMessage,
-    isSuccessfullOperation : state.companies.isSuccessfullOperation
+    isSuccessfullOperation : state.companies.isSuccessfullOperation,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 
