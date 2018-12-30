@@ -200,3 +200,49 @@ export function uploadCompanyLogo(companyLogo, companyId){
   );
 
 };
+
+export function getAllFlights(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/flight/all",
+    method: 'GET',
+     headers: {'Content-Type': 'application/json',
+                 'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+export function fetchImage(imgeUrl){
+
+  var auth = 'Bearer ya29.Gl2BBkMuV9dPHOcasQYrFHt0wDZzAM2r9bYFYRslQXuvvzkZtvZGJE1l4MEFTrMG6NT_hYF5o3IBtShSFONUd-t-yOVti2iP76bZvt329ofGUj1UXuQXhdnnIEsYK9k';
+
+  const options = {
+    url: imgeUrl,
+    method: 'GET',
+     headers: {'Accept': 'application/json',
+        'Content-Type': 'application/json',
+             'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then((response) =>{
+    return response;
+  }).then((data)=>{
+    return data;
+  })
+
+};

@@ -1,4 +1,4 @@
-import { createFlightRequest } from '../../util/API_REST';
+import { createFlightRequest, getAllFlights, fetchImage } from '../../util/API_REST';
 
 
 export const createFlight = (flight) => {
@@ -14,5 +14,32 @@ export const createFlight = (flight) => {
             });
 
 
+  }
+}
+
+export const allFlights = () => {
+  return (dispatch, getState) =>{
+    getAllFlights()
+      .then(response => {
+          dispatch({type: 'ALL_FLIGHTS', flights : response });
+          }).catch(error => {
+              if(error.status === 500) {
+                dispatch({type: 'ALL_FLIGHTS_ERROR', error : error });
+              }
+            });
+  }
+
+}
+
+export const getImage = (ImageUrl) =>{
+  return (dispatch, getState) =>{
+    fetchImage(ImageUrl)
+      .then(response => {
+          dispatch({type: 'GET_IMAGE', image : response });
+          }).catch(error => {
+              if(error.status === 500) {
+                dispatch({type: 'GET_IMAGE_ERROR', error : error });
+              }
+            });
   }
 }

@@ -8,6 +8,7 @@ import CreateTrain from './admin/CreateTrain';
 import CreateBus from './admin/CreateBus';
 import CreateCompany from './admin/CreateCompany';
 import Flights from './components/Flights'
+import BookTransport from './components/BookTransport'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -33,6 +34,8 @@ class App extends Component {
 
                   <Route path="/flights"
                       render={(props) => <Flights />}></Route>
+
+                    <Route path="/bookTransport/:id" component={BookTransport} />
 
 
         </Switch>

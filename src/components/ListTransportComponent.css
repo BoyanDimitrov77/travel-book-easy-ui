@@ -1,0 +1,9 @@
+.transport-box{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+.book-button{
+  margin-left: 57px;
+}

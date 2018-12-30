@@ -1,5 +1,6 @@
 const initState = {
-  flight:{}
+  flight:{},
+  flights : {}
 }
 
 const flightReducer = (state = initState, action) => {
@@ -18,6 +19,24 @@ const flightReducer = (state = initState, action) => {
         isSuccessfullOperation : false,
         showOperationStatusMessage :true,
       }
+    case 'ALL_FLIGHTS' :
+    return {
+      ...state,
+      flights : action.flights
+    }
+    case 'ALL_FLIGHTS_ERROR' :
+    return {
+      ...state
+    }
+    case 'GET_IMAGE' :
+    return {
+      ...state,
+      image : action.image
+    }
+    case 'GET_IMAGE_ERROR' :
+    return {
+      ...state
+    }
     default : return state;
   }
 }
