@@ -1,0 +1,36 @@
+.book-transport{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.book-transport-info{
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  align-items: center;
+}
+.book-transport-containers{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  /* align-items: center; */
+}
+/* .book-transport-container-form{
+  margin-left: 10px;
+  margin-right: 10px;
+} */
+.book-transport-info-box{
+  height: 200px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.book-transport-passenger-box{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.passenger-container{
+  margin-bottom: 15px;
+  border-bottom: 2px solid #d3d3d3;
+}

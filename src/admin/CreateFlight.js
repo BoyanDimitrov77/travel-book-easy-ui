@@ -7,7 +7,8 @@ import CreateTravelClass from './CreateTravelClass';
 import { connect } from 'react-redux';
 import { createFlight } from '../store/actions/flightActions';
 import { getAllCompany } from '../store/actions/companyActions';
-import { addTravelClass } from '../store/actions/traveClassActions'
+import { addTravelClass } from '../store/actions/traveClassActions';
+import { Redirect } from 'react-router-dom';
 
 class CreateFlight extends Component{
 
@@ -78,11 +79,12 @@ class CreateFlight extends Component{
         <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
         );
 
+        if(!this.props.authUser) return <Redirect to='/login' />
+        if(!this.props.isAdmin) return <Redirect to='/' />
+
         return (
           <div>
-            <AppNavBar isAdmin={this.props.isAdmin} isAuthenticated={this.props.isAuthenticated}/>
-            {
-            this.props.isAuthenticated ? (
+            <AppNavBar/>
             <Container className= "ContainerForm">
 
             <h2>Create Flight</h2>
@@ -186,8 +188,7 @@ class CreateFlight extends Component{
               </AvForm>
                 )
              }
-            </Container>) : null
-          }
+            </Container>
           </div>
         );
       }
@@ -198,7 +199,9 @@ const mapStateToProps = (state) => {
   return {
     flight : state.flight,
     companies : state.companies.companies,
-    travelClasses : state.travelClasses.travelClasses
+    travelClasses : state.travelClasses.travelClasses,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 

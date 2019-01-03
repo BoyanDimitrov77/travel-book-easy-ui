@@ -12,6 +12,8 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { connect } from 'react-redux';
+import { resetApp } from '../store/actions/rootActions';
 
 class AppNavBar extends Component{
 
@@ -27,17 +29,24 @@ class AppNavBar extends Component{
     });
   }
 render(){
+  const authUser = this.props.authUser;
   const isAdmin = this.props.isAdmin;
-  const isAuthenticated = this.props.isAuthenticated;
-  let navLoginLink;
+  console.log("isAdmin:" + isAdmin);
+  console.log("authUser" + authUser);
 
-  if(!isAdmin && !isAuthenticated){
-      navLoginLink = <NavLink href="/login/">Login</NavLink>;
+  let navLogInLink;
+  let navLogOutLink;
+
+  if(!authUser){
+      navLogInLink = <NavLink href="/login/">Login</NavLink>;
+  }else{
+    navLogOutLink = <NavLink onClick={this.props.signOut}>Log Out</NavLink>;
   }
+
 
   let profileLink;
 
-  if(isAuthenticated){
+  if(authUser){
     profileLink = <NavLink href="/userProfile/">Profile</NavLink>;
   }
 
@@ -65,22 +74,42 @@ render(){
 
   }
 
+  let flightsLink;
+  let busesLink;
+  let trainsLink;
+  if(!isAdmin && authUser){
+    flightsLink = <NavbarBrand href="/flights/">Flights</NavbarBrand>
+    busesLink = <NavbarBrand href="/buses/">Buses</NavbarBrand>
+    trainsLink = <NavbarBrand href="/trains/">Trains</NavbarBrand>
+  }
+
   return (
         <div>
           <Navbar color="light" light expand="md">
-            <NavbarBrand href="/">Travel Bool Easy</NavbarBrand>
+            <NavbarBrand href="/">Travel Bool Easy </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
+
+                      {flightsLink}
+
+                      {busesLink}
+
+                      {trainsLink}
+
+
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
+
                 <NavItem>
-                    {navLoginLink}
+                    {navLogInLink}
                 </NavItem>
                 <NavItem>
                     {profileLink}
                 </NavItem>
                 {uncontrolledDropdown}
+                {navLogOutLink}
               </Nav>
             </Collapse>
+
           </Navbar>
         </div>
       );
@@ -88,4 +117,17 @@ render(){
 
 }
 
-export default AppNavBar;
+const mapStateToProps = (state) =>{
+  return {
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
+  }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return {
+    signOut : () => dispatch(resetApp())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (AppNavBar);

@@ -8,6 +8,7 @@ import CreateTravelClass from './CreateTravelClass';
 import { createTrain } from '../store/actions/trainActions';
 import { getAllCompany } from '../store/actions/companyActions';
 import { addTravelClass } from '../store/actions/traveClassActions'
+import { Redirect } from 'react-router-dom';
 
 class CreateTrain extends Component{
 
@@ -71,6 +72,8 @@ class CreateTrain extends Component{
   }
 
   render() {
+    if(!this.props.authUser) return <Redirect to='/login' />
+    if(!this.props.isAdmin) return <Redirect to='/' />
 
      const companies = this.props.companies;
      const companyOption = companies.map((company)=>
@@ -79,9 +82,8 @@ class CreateTrain extends Component{
 
       return (
         <div>
-          <AppNavBar isAdmin={this.props.isAdmin} isAuthenticated={this.props.isAuthenticated}/>
-          {
-          this.props.isAuthenticated ? (
+          <AppNavBar/>
+
           <Container className= "ContainerForm">
 
           <h2>Create Train</h2>
@@ -186,7 +188,6 @@ class CreateTrain extends Component{
               )
            }
           </Container>) : null
-        }
         </div>
       );
     }
@@ -198,7 +199,9 @@ const mapStateToProps = (state) => {
   return {
     train : state.train,
     companies : state.companies.companies,
-    travelClasses : state.travelClasses.travelClasses
+    travelClasses : state.travelClasses.travelClasses,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 

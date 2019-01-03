@@ -8,10 +8,30 @@ import {createStore, applyMiddleware } from 'redux';
 import rootReducer from './store/reducers/rootReducer';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer} from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import storage from 'redux-persist/lib/storage'
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const persistConfig = {
+  key: "root",
+  storage
+}
 
-ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+
+const persistor = persistStore(store);
+//persistor.purge();
+
+ReactDOM.render(
+  <Provider store={store}>
+    <PersistGate persistor={persistor} loading={null}>
+      <App />
+    </PersistGate>
+  </Provider>,
+    document.getElementById('root')
+  );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
