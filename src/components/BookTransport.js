@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import AppNavBar from '../common/AppNavBar';
 import './BookTransport.css'
-import { Alert, Container, Button } from 'reactstrap'
+import { Container, Button } from 'reactstrap'
 import { AvForm } from 'availity-reactstrap-validation';
 import BookTransportComponent from './BookTransportComponent'
-import BookTransportInfoComponent from './BookTransportInfoComponent'
 import BookTransportPassengerComponent from './BookTransportPassengerComponent'
 import { bookFlight } from '../store/actions/flightBookActions'
 import { connect } from 'react-redux'
@@ -59,7 +58,9 @@ const mapStateToProps = (state, ownProps) =>{
       return element.id == id;
     }),
     showErroMessage : state.flightBook.showErroMessage,
-    isSuccessfullBooking : state.flightBook.isSuccessfullBooking
+    isSuccessfullBooking : state.flightBook.isSuccessfullBooking,
+    bookTransport : state.flight.bookTransport,
+    passengers : state.flight.passengers
   }
 }
 

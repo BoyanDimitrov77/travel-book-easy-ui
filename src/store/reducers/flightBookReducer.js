@@ -1,5 +1,5 @@
 const initState = {
-  showErroMessage : false
+  showErroMessage : false,
 }
 
 const flightReducer = (state = initState, action) => {
@@ -8,7 +8,8 @@ const flightReducer = (state = initState, action) => {
     case 'SUCCESSFULL_BOOKING':
     return{
       ...state,
-      isSuccessfullBooking: true
+      isSuccessfullBooking: true,
+      flightBookId : action.flightBook.id
     }
 
     case 'UNSUCCESSFULL_BOOKING' :

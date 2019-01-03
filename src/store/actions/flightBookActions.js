@@ -4,24 +4,23 @@ import { bookFlightRequest, addPassengersToBookedFlight } from '../../util/API_R
 export const bookFlight = (booktTransport, passengers) =>{
   return (dispatch, getState) =>{
 
-    dispatch({type: 'SUCCESSFULL_BOOKING'});
-    // bookFlightRequest(booktTransport.flightId)
-    //   .then(response => {
-    //         console.log("BookTransportResponse:" + response);
-    //         addPassengersToBookedFlight(response.id, booktTransport.travelClassId, passengers )
-    //         .then(response =>{
-    //           console.log("BookTransportAddPassengersResponse:" + response);
-    //           dispatch({type: 'SUCCESSFULL_BOOKING'});
-    //         }).catch(error =>{
-    //           if(error.status === 500) {
-    //             dispatch({type: 'UNSUCCESSFULL_BOOKING', error : error });
-    //           }
-    //         })
-    //       }).catch(error => {
-    //           if(error.status === 500) {
-    //             dispatch({type: 'UNSUCCESSFULL_BOOKING', error : error });
-    //           }
-    //         });
+     bookFlightRequest(booktTransport.flightId)
+       .then(response => {
+             console.log("BookTransportResponse:" + response);
+             addPassengersToBookedFlight(response.id, booktTransport.travelClassId, passengers )
+             .then(response =>{
+               console.log("BookTransportAddPassengersResponse:" + response);
+               dispatch({type: 'SUCCESSFULL_BOOKING', flightBook : response});
+             }).catch(error =>{
+               if(error.status === 500) {
+                 dispatch({type: 'UNSUCCESSFULL_BOOKING', error : error });
+               }
+             })
+           }).catch(error => {
+               if(error.status === 500) {
+                 dispatch({type: 'UNSUCCESSFULL_BOOKING', error : error });
+               }
+             });
   }
 }
 

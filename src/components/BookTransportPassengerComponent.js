@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {Container, Button } from 'reactstrap';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { AvField } from 'availity-reactstrap-validation';
 import { connect } from 'react-redux';
 import { updatePassengerField } from '../store/actions/flightActions'
-import { Redirect, Link , withRouter} from 'react-router-dom'
 
 class BookTransportPassengerComponent extends Component{
   _isMounted = false;
