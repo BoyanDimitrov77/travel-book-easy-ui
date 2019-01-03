@@ -80,10 +80,10 @@ const flightReducer = (state = initState, action) => {
 
 const calculatePrice = (flights, flightId, travelClassId, numberOfTicket) =>{
   var flight  = flights.find(function(element){
-    return element.id == flightId;
+    return element.id === flightId;
   });
   var travelClass = flight.travelClasses.find(function(element){
-    return element.id == travelClassId;
+    return element.id === travelClassId;
   })
 
   return travelClass.price * numberOfTicket;

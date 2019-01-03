@@ -295,3 +295,51 @@ export function addPassengersToBookedFlight(flightBookingId, travelClassId, pass
   );
 
 };
+
+export function getClientToken(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/booking/clientToken" ,
+    method: 'GET',
+     headers: {'Content-Type': 'application/json',
+                 'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+export function paymentFlight(amount, flightBookId, travelClassId, nonceFromTheClient ){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+  const queryParams = "amount=" + amount +"&"+ "flightBookId="+ flightBookId +"&"+ "travelClassId=" + travelClassId +"&"+ "nonceFromTheClient="+ nonceFromTheClient;
+  const options = {
+    url: API_BASE_URL + "/booking/bookFlight/payment?"+ queryParams ,
+    method: 'POST',
+     headers: {'Content-Type': 'application/json',
+                 'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
