@@ -31,5 +31,6 @@
   margin-right: 10px;
 }
 .passenger-container{
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #d3d3d3;
 }

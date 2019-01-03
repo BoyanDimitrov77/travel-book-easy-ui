@@ -43,3 +43,27 @@ export const getImage = (ImageUrl) =>{
             });
   }
 }
+
+export const resetPassengers = () =>{
+  return (dispatch, getState) =>{
+    dispatch({type : "RESET_PASSENGERS"});
+  }
+}
+
+export const addNewPassenger = (passenger) =>{
+  return (dispatch, getState) =>{
+    dispatch({type : "ADD_NEW_PASSENGER", passenger : passenger });
+  }
+}
+
+export const setBookTrasnportParameter = (flightId, price, travelClassId) =>{
+  return (dispatch, getState) =>{
+    dispatch({type: "BOOK_TRANSPORT_PARAMETER", flightId : flightId, price : price, travelClassId: travelClassId })
+  }
+}
+
+export const updatePassengerField = (fieldName, fieldValue , passengerId) => {
+  return (dispatch, getState) => {
+    dispatch({type: 'UPDATE_PASSENGER_FIELDS', fieldName : fieldName, fieldValue: fieldValue, passengerId : passengerId  });
+  }
+}

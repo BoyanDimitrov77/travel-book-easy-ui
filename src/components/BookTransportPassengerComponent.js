@@ -1,49 +1,85 @@
-import React from 'react';
-import {Container } from 'reactstrap';
+import React, { Component } from 'react';
+import {Container, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { connect } from 'react-redux';
+import { bookFlight } from '../store/actions/flightBookActions'
+import { updatePassengerField } from '../store/actions/flightActions'
 
-const BookTransportPassengerComponent = () =>{
+class BookTransportPassengerComponent extends Component{
 
-  return (
-    <Container className="ContainerForm book-transport-passenger-box">
+  handleChange = async (event, idx) => {
+     const { target } = event;
+     const value = target.type === 'checkbox' ? target.checked : target.value;
+     this.props.updatePassengerField(target.classList[0], value, idx);
+  }
 
-      <div>
-        <AvForm>
-          <div className="passenger-container">
-            <AvField className="travelClass" name="{travelClassId}" id="{travelClassId}" data-id="{idx}" value ="" label="Name passenger" type="text" errorMessage="Invalid Passenger Name" validate={{
-                required: {value: true},
-                pattern: {value: '^[A-Za-z]+$'}
-              }}
-              onChange={ (e) => {
-                  //        this.handleChange(e, idx )
-                        } }/>
+  handleValidSubmit(e) {
+    e.persist();
+    console.log(this.props.bookTransport, this.props.passengers);
+    this.props.bookFlight(this.props.bookTransport, this.props.passengers)
 
-
-          <AvField className="travelClass" name="{travelClassId}" id="{travelClassId}" data-id="{idx}" value ="" label="Email" type="text" errorMessage="Invalid Email" validate={{
+  }
+  render(){
+    const passengerComponent = this.props.passengers.map((val, idx)=>{
+      let passengerId = `passenger-${idx}`, emailId = `email-${idx}`, phoneNumberId = `phoneNumber-${idx}`;
+      return (
+        <div key={idx} className="passenger-container">
+          <AvField className="passengerName" name={passengerId} id={passengerId} data-id={idx} value ={this.props.passengers[idx].name} label={`Passenger #${idx + 1}`} type="text" errorMessage="Invalid Passenger Name" validate={{
               required: {value: true},
               pattern: {value: '^[A-Za-z]+$'}
             }}
             onChange={ (e) => {
-                //        this.handleChange(e, idx )
+                        this.handleChange(e, idx )
                       } }/>
 
-                    <AvField className="travelClass" name="{travelClassId}" id="{travelClassId}" data-id="{idx}" value ="" label="Phone number" type="text" errorMessage="Invalid Phone number" validate={{
-              required: {value: true},
-              pattern: {value: '^[A-Za-z]+$'}
-            }}
-            onChange={ (e) => {
-                //        this.handleChange(e, idx )
-                      } }/>
+                    <AvField  className= "email" name={emailId} id={emailId} data-id={idx} value={this.props.passengers[idx].email} label= "Email" type="email" errorMessage="Invalid email" required
+               onChange={ (e) => {
+                            this.handleChange(e, idx)
+                          } }/>
 
-          </div>
-      </AvForm>
+                        <AvField  className="phoneNumber" name={phoneNumberId} id={phoneNumberId} data-id={idx} value={this.props.passengers[idx].phoneNumber} label="Phonen number" type="text" errorMessage="Invalid phone number" validate={{
+                  required: {value: true},
+                  pattern: {value: '^[0-9]+$'}
+                }}
+                 onChange={ (e) => {
+                              this.handleChange(e, idx)
+                            } }/>
+        </div>
+      )
 
-      </div>
-    </Container>
+    })
 
-  )
+    return (
+      <Container className="ContainerForm book-transport-passenger-box">
 
+        <div>
+          <AvForm onValidSubmit={ (e) => this.handleValidSubmit(e) }>
+              {passengerComponent}
+
+              <Button>Submit</Button>
+        </AvForm>
+
+        </div>
+      </Container>
+
+    )
+
+  }
 
 }
 
-export default BookTransportPassengerComponent;
+const mapStateToProps = (state) =>{
+  return{
+    passengers : state.flight.passengers,
+    bookTransport : state.flight.bookTransport
+  }
+}
+
+const mapDispactchToProps = (dispatch) =>{
+  return{
+    updatePassengerField : (fieldName, fieldValue, passengerId) => dispatch(updatePassengerField(fieldName, fieldValue, passengerId)),
+    bookFlight : (booktTransport, passengers) => dispatch(bookFlight(booktTransport, passengers))
+  }
+}
+
+export default connect(mapStateToProps, mapDispactchToProps) (BookTransportPassengerComponent);

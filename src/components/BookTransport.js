@@ -23,7 +23,6 @@ const BookTransport = (props) => {
 const mapStateToProps = (state, ownProps) =>{
 
   const id = ownProps.match.params.id;
-  console.log(id);
   return {
     flight : state.flight.flights.find(function(element){
       return element.id == id;
