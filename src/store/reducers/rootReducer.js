@@ -6,18 +6,20 @@ import traveClassReducer from './traveClassReducer';
 import trainReducer from './trainReducer';
 import busReducer from './busReducer';
 import imageReducer from './imageReducer';
+import clientTokenReducer from './clientTokenReducer'
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 
 const appReducer = combineReducers({
   auth: authReducer,
   flight : flightReducer,
-  fligtBookReducer : fligtBookReducer,
+  flightBook : fligtBookReducer,
   train: trainReducer,
   bus : busReducer,
   companies : companyReducer,
   travelClasses : traveClassReducer,
-  image : imageReducer
+  image : imageReducer,
+  clientToken : clientTokenReducer
 });
 
 const rootReducer = (state, action) =>{

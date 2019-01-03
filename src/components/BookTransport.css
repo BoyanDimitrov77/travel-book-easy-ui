@@ -11,6 +11,12 @@
   width: 70%;
   align-items: center;
 }
+.book-transport-info-preview{
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+}
 .book-transport-containers{
   display: flex;
   justify-content: space-between;
@@ -33,4 +39,9 @@
 .passenger-container{
   margin-bottom: 15px;
   border-bottom: 2px solid #d3d3d3;
+}
+.center-button{
+  display: flex;
+ align-items: center;
+ justify-content: center;
 }

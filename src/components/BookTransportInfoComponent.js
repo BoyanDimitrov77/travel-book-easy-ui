@@ -1,124 +1,69 @@
-import React, { Component } from 'react';
-import { Container, Badge, Input } from 'reactstrap';
+import React from 'react';
+import { connect } from 'react-redux'
+import { Container, Badge, Button } from 'reactstrap';
 import Avatar from 'react-avatar';
 import img from './512.png';
-import { resetPassengers, addNewPassenger, setBookTrasnportParameter } from '../store/actions/flightActions'
-import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-class BookTransportInfoComponent extends Component{
+const BookTransportInfoComponent = (props) =>{
 
-  componentDidMount(){
-    this.props.setBookTrasnportParameter(this.props.flight.id, this.props.flight.price, this.props.flight.travelClasses[0].id);
-  }
+  return(
+    <Container className= "ContainerForm">
+      <div className="book-transport-info-preview">
 
-  handleChange = async (event) => {
-     const { target } = event;
-     const value = target.type === 'checkbox' ? target.checked : target.value;
-     const { name } = target;
+        <div>
+          <h3><Badge color="secondary">{props.flightName}</Badge></h3>
+          <Avatar src={img} round={true} />
 
-     if(name.localeCompare("selectTravelClassId") ==0){
-       const travelClassId = value;
-       this.onChangePrice(travelClassId)
-     }
+        </div>
 
-    if(name.localeCompare("numberOfTicket") == 0){
-        const numberOfTicket  = value;
-        this.onChangePassenger(numberOfTicket);
-        this.onChangePrice(this.props.bookTransport.travelClassId);
-     }
-  }
+        <div className="book-transport-info">
+          <div>
+            <h5>Company : <Badge color="secondary">{props.companyName}</Badge></h5>
+            <h5>From : <Badge color="secondary">{props.locationFrom}</Badge></h5>
+            <h5>To : <Badge color="secondary">{props.locationTo}</Badge></h5>
+            <h5>TravelClass : <Badge color="secondary">{props.travelClassName}</Badge></h5>
+          </div>
 
-  onChangePassenger = (numberOfTicket) =>{
-    this.props.resetPassengers();
-    for(var i=0; i<numberOfTicket; i++){
-      this.props.addNewPassenger({'passengerName':'', 'email': '', 'phoneNumber': ''});
-    }
-  }
+          <div>
+            <h5>Depart : <Badge color="secondary">{props.departDate}</Badge></h5>
+            <h5>Arrive : <Badge color="secondary">{props.arriveDate}</Badge></h5>
+            <h5>Price : <Badge color="secondary">$ {props.price}</Badge></h5>
+            <h5>Tickets : <Badge color="secondary">{props.tickets}</Badge></h5>
+          </div>
+        </div>
 
-  onChangePrice = (travelClassId)=>{
-    this.props.setBookTrasnportParameter(this.props.flight.id, null, travelClassId);
-  }
+      </div>
+      <div className="center-button">
+        <Link to='/payment'>
+          <Button color="success">Pay</Button>
+        </Link>
 
-render(){
-      const { flight } = this.props;
-        const travelClasses = this.props.flight.travelClasses ? (
-          flight.travelClasses.map(travelClass =>{
-            return (
-              <option key={travelClass.id} id={travelClass.id} value={travelClass.id}>{travelClass.travelClass}</option>
-            )
-          })
+      </div>
+    </Container>
+  )
 
-        ) : null;
-
-          const flightElement = flight ?  (
-              <div className="book-transport">
-
-                <div>
-                  <h3><Badge color="secondary">{flight.name}</Badge></h3>
-                  <Avatar src={img} round={true} />
-
-                </div>
-
-                <div className="book-transport-info">
-                  <div>
-                    <h5>Company : <Badge color="secondary">{flight.company.name}</Badge></h5>
-                    <h5>From : <Badge color="secondary">{flight.locationFrom.name}</Badge></h5>
-                    <h5>To : <Badge color="secondary">{flight.locationTo.name}</Badge></h5>
-
-                    <h5>Travel class :
-                      <Input type="select" name="selectTravelClassId" value={this.props.bookTransport.travelClassId}
-                        onChange={ (e) => {
-                                this.handleChange(e);
-                              } }>
-                       {travelClasses}
-                     </Input>
-
-                    </h5>
-
-                  </div>
-
-                  <div>
-                    <h5>Depart : <Badge color="secondary">{flight.departDate}</Badge></h5>
-                    <h5>Arrive : <Badge color="secondary">{flight.arriveDate}</Badge></h5>
-                    <h5>Price : <Badge color="secondary">$ {this.props.bookTransport.price}</Badge></h5>
-                      <h5>Passenger :
-                        <Input type="select" name="numberOfTicket" id="exampleSelect" onChange={ (e) => {
-                                  this.handleChange(e);
-                                } }>
-                         <option>1</option>
-                         <option>2</option>
-                         <option>3</option>
-                         <option>4</option>
-                         <option>5</option>
-                       </Input>
-                      </h5>
-                  </div>
-                </div>
-
-              </div>
-          ) : null;
-
-
-          return (
-            <Container className= "ContainerForm book-transport-info-box">
-              {flightElement}
-            </Container>
-          )
-        }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state)=>{
+  let flight = state.flight.flights.find(function(element){
+    return element.id == state.flight.bookTransport.flightId;
+  });
+
+  let travelClass = flight.travelClasses.find(function(element){
+    return element.id == state.flight.bookTransport.travelClassId;
+  });
   return {
-    bookTransport : state.flight.bookTransport
+    flightName  : flight.name,
+    companyName : flight.company.name,
+    locationFrom : flight.locationFrom.name,
+    locationTo : flight.locationTo.name,
+    travelClassName : travelClass.travelClass,
+    departDate : flight.departDate,
+    arriveDate : flight.departDate,
+    price : state.flight.bookTransport.price,
+    tickets : state.flight.passengers.length
   }
 }
 
-const mapDispactchToProps = (dispatch) =>{
-  return{
-    resetPassengers : () => dispatch(resetPassengers()),
-    addNewPassenger : (passenger) => dispatch(addNewPassenger(passenger)),
-    setBookTrasnportParameter : (flightId, price, travelClassId) => dispatch(setBookTrasnportParameter(flightId, price, travelClassId))
-  }
-}
-
-export default connect(mapStateToProps, mapDispactchToProps) (BookTransportInfoComponent);
+export default connect(mapStateToProps) (BookTransportInfoComponent);
