@@ -343,3 +343,28 @@ export function paymentFlight(amount, flightBookId, travelClassId, nonceFromTheC
   );
 
 };
+
+export function searchFlights(searchRequest){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/flight/searchFlights",
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+                'Authorization' : auth },
+    body: JSON.stringify(searchRequest)
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
