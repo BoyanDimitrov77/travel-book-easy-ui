@@ -1,6 +1,8 @@
 const initState = {
   authError : null,
-  isAdmin : false
+  isAdmin : false,
+  isSuccessfullResetPassowordOperation : false,
+  showErroMessage : false
 }
 
 const authReducer = (state = initState, action) => {
@@ -19,6 +21,30 @@ const authReducer = (state = initState, action) => {
     return {
       ...state,
       authError : 'Login failed'
+    }
+
+    case 'RESET_PASSWORD_SUCCESS' :
+    return{
+      isSuccessfullResetPassowordOperation : true,
+      showErroMessage : false
+    }
+
+    case 'RESET_PASSWORD_ERROR' :
+    return{
+      isSuccessfullResetPassowordOperation : false,
+      showErroMessage : true
+    }
+
+    case 'CHANGE_PASSWORD_SUCCESS' :
+    return {
+      isSuccessfullResetPassowordOperation : true,
+      showErroMessage : false
+    }
+
+    case 'CHANGE_PASSWORD_ERROR' :
+    return {
+      isSuccessfullResetPassowordOperation : false,
+      showErroMessage : true
     }
     default: return state;
 

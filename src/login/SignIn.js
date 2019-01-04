@@ -7,7 +7,7 @@ import './Login.css';
 import { connect } from 'react-redux';
 import { signIn} from '../store/actions/authActions';
 import { resetApp } from '../store/actions/rootActions';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class Login extends Component{
 
@@ -140,7 +140,12 @@ class Login extends Component{
                     </FormFeedback>
                     </FormGroup>
                   </Col>
-                  <Button>Login</Button>
+                  <div className="wrap-button-auth">
+                    <Button>Login</Button>
+                    <Link to='/forgotpassword'> Forgot password</Link>
+                  </div>
+
+
               </Form>
           </Container>
         </div>
