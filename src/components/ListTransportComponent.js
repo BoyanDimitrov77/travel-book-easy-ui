@@ -16,7 +16,9 @@ const ListTransportComponent = ({flights}) =>{
                <div>
 
                <h3><Badge color="secondary"> {flight.company.name} </Badge></h3>
-               <Avatar src={img} round={true} />
+               <Link to={'/company/' + flight.company.id}>
+                 <Avatar src={img} round={true} />
+               </Link>
                </div>
 
                <div>
