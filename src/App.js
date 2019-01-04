@@ -15,6 +15,7 @@ import BookTransport from './components/BookTransport'
 import PaymentComponent from './components/PaymentComponent'
 import BookTransportInfoComponent from './components/BookTransportInfoComponent'
 import CompanyComponent from './components/CompanyComponent'
+import UserProfileComponent from './components/UserProfileComponent'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -54,6 +55,8 @@ class App extends Component {
                     <Route path="/payment" component={PaymentComponent} />
 
                     <Route path="/company/:id" component={CompanyComponent} />
+
+                  <Route path="/userProfile" component={UserProfileComponent} />
 
 
         </Switch>
