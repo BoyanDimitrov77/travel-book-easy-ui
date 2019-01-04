@@ -73,6 +73,17 @@ const flightReducer = (state = initState, action) => {
         passengers : updatedPassengers
       }
 
+      case 'FIND_FLIGHTS' :
+      return {
+        ...state,
+        flights : action.flights
+      }
+
+      case 'FIND_FLIGHTS_ERROR' :
+      return{
+        ...state
+      }
+
     default : return state;
   }
 
