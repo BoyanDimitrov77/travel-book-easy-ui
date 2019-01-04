@@ -440,3 +440,69 @@ export function createCompanyComment(companyId, comment){
   );
 
 };
+
+export function registrationUser(registrationRequest){
+
+    const options = {
+      url: API_BASE_URL + "/register",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registrationRequest)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function resetUserPassword(requestObject){
+
+    const options = {
+      url: API_BASE_URL + "/users/resetPassword",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestObject)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function resetAndChangeUserPassword(requestObject, verificationToken){
+
+    const options = {
+      url: API_BASE_URL + "/verification/" + verificationToken,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestObject)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};

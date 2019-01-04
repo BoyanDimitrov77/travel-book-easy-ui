@@ -1,4 +1,5 @@
 import authReducer from './authReducer';
+import registrationReducer from './registrationReducer'
 import flightReducer from './flightReducer';
 import fligtBookReducer from './flightBookReducer'
 import companyReducer from './companyReducer';
@@ -13,6 +14,7 @@ import storage from 'redux-persist/lib/storage'
 
 const appReducer = combineReducers({
   auth: authReducer,
+  registration : registrationReducer,
   flight : flightReducer,
   flightBook : fligtBookReducer,
   train: trainReducer,

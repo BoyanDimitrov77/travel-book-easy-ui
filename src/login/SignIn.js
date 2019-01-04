@@ -6,7 +6,8 @@ Button, FormText, FormFeedback, Alert } from 'reactstrap';
 import './Login.css';
 import { connect } from 'react-redux';
 import { signIn} from '../store/actions/authActions';
-import { Redirect } from 'react-router-dom';
+import { resetApp } from '../store/actions/rootActions';
+import { Redirect, Link } from 'react-router-dom';
 
 class Login extends Component{
 
@@ -22,6 +23,15 @@ class Login extends Component{
     }
     this.handleChange = this.handleChange.bind(this);
   }
+
+  componentDidMount(){
+    if(!this.props.authUser){
+      this.props.resetApp();
+    }
+
+  }
+
+
 
   validateEmail(e) {
     const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -130,7 +140,12 @@ class Login extends Component{
                     </FormFeedback>
                     </FormGroup>
                   </Col>
-                  <Button>Submit</Button>
+                  <div className="wrap-button-auth">
+                    <Button>Login</Button>
+                    <Link to='/forgotpassword'> Forgot password</Link>
+                  </div>
+
+
               </Form>
           </Container>
         </div>
@@ -147,7 +162,8 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
   return {
-    signIn : (credentials) => dispatch(signIn(credentials))
+    signIn : (credentials) => dispatch(signIn(credentials)),
+    resetApp : () => dispatch(resetApp())
   }
 }
 
