@@ -506,3 +506,53 @@ export function resetAndChangeUserPassword(requestObject, verificationToken){
     );
 
 };
+
+export function changeUserPassword(requestObject){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/users/changePassword",
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  },
+      body: JSON.stringify(requestObject)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function changeUserInfo(requestObject){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/users/updatePersonalInformation",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  },
+      body: JSON.stringify(requestObject)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};

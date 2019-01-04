@@ -71,7 +71,7 @@ class ResetPassword extends Component {
 
             <Col>
 
-              <AvField  className= "password" name="password" id="password" value="" label= "Password" type="password" errorMessage="Invalid passoword. A minimum 8 characters password contains a combination of uppercase and lowercase letter,number and special symbol are required." required
+              <AvField  className= "password" name="password" id="password" value="" label= "Password" type="password" errorMessage="Invalid password. A minimum 8 characters password contains a combination of uppercase and lowercase letter,number and special symbol are required." required
               validate={{
                   required: {value: true},
                   pattern: {value: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%^&*])(?=.{8,})'}

@@ -9,6 +9,7 @@ import busReducer from './busReducer';
 import imageReducer from './imageReducer';
 import clientTokenReducer from './clientTokenReducer'
 import paymentReducer from './paymentReducer'
+import userProfileReducer from './userProfileReducer'
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 
@@ -23,7 +24,8 @@ const appReducer = combineReducers({
   travelClasses : traveClassReducer,
   image : imageReducer,
   clientToken : clientTokenReducer,
-  payment : paymentReducer
+  payment : paymentReducer,
+  userProfile : userProfileReducer
 });
 
 const rootReducer = (state, action) =>{

@@ -4,6 +4,7 @@ import SearchComponent from './SearchComponent';
 import ListTransportComponent from './ListTransportComponent';
 import { allFlights, getImage } from '../store/actions/flightActions'
 import { resetAppWithoutUser } from '../store/actions/rootActions'
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 class Flights extends Component{
@@ -15,6 +16,7 @@ class Flights extends Component{
   }
 
   render(){
+    if(!this.props.authUser) return <Redirect to='/login' />
 
     const {flights} = this.props;
     return (
@@ -30,7 +32,8 @@ class Flights extends Component{
 
 const mapStateToProps = (state) =>{
   return {
-    flights : state.flight.flights
+    flights : state.flight.flights,
+    authUser : state.auth.user
   }
 }
 

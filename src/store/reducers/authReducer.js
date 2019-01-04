@@ -46,6 +46,12 @@ const authReducer = (state = initState, action) => {
       isSuccessfullResetPassowordOperation : false,
       showErroMessage : true
     }
+
+    case 'UPDATE_USER' :
+    return {
+      ...state,
+      user : action.user
+    }
     default: return state;
 
   }
