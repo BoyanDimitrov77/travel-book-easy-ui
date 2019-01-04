@@ -440,3 +440,25 @@ export function createCompanyComment(companyId, comment){
   );
 
 };
+
+export function registrationUser(registrationRequest){
+
+    const options = {
+      url: API_BASE_URL + "/register",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(registrationRequest)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};

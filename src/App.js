@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Home from './home/Home';
 import SignIn from './login/SignIn';
+import SignUp from './login/SignUp';
 import CreateFlight from './admin/CreateFlight';
 import CreateTrain from './admin/CreateTrain';
 import CreateBus from './admin/CreateBus';
@@ -22,6 +23,8 @@ class App extends Component {
           <Route path='/' exact={true} component={Home}/>
           <Route path="/login"
                    render={(props) => <SignIn/>}></Route>
+
+            <Route path="/signup" component={SignUp} />
 
             <Route path="/CreateFlight"
                render={(props) => <CreateFlight/>}></Route>

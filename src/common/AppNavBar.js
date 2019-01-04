@@ -36,9 +36,11 @@ render(){
 
   let navLogInLink;
   let navLogOutLink;
+  let navSignUpLink;
 
   if(!authUser){
       navLogInLink = <NavLink href="/login/">Login</NavLink>;
+      navSignUpLink = <NavLink href="/signup">SignUp</NavLink>;
   }else{
     navLogOutLink = <NavLink onClick={this.props.signOut}>Log Out</NavLink>;
   }
@@ -101,6 +103,9 @@ render(){
 
                 <NavItem>
                     {navLogInLink}
+                </NavItem>
+                <NavItem>
+                    {navSignUpLink}
                 </NavItem>
                 <NavItem>
                     {profileLink}
