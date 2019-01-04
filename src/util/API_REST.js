@@ -368,3 +368,75 @@ export function searchFlights(searchRequest){
   );
 
 };
+
+export function findCompany(companyId){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/company/" + companyId,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json',
+                'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+export function ratingCompany(companyId, rating){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/company/ratingCompany/" + companyId + "?rating=" + rating,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+                'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
+export function createCompanyComment(companyId, comment){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/company/createComment/" + companyId + "?comment=" + comment,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+                'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};

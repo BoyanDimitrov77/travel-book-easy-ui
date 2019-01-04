@@ -1,6 +1,10 @@
 const initState = {
   companies:[],
-  createdCompany : {}
+  createdCompany : {},
+  company : {
+    showErrorMessage : false,
+    errorMessage : ""
+  }
 }
 
 const companyReducer = (state = initState, action) => {
@@ -26,6 +30,54 @@ const companyReducer = (state = initState, action) => {
       showOperationStatusMessage :true,
 
     }
+
+    case 'GET_COMPANY' :
+    return {
+      ...state,
+      company : action.company
+    }
+
+    case 'GET_COMPANY_ERROR' :
+    return {
+      ...state,
+      company : {
+        showErrorMessage : true,
+        errorMessage : action.error.message
+      }
+    }
+
+    case 'RAITING_COMPANY' :
+    return {
+      ...state,
+      company : action.company
+    }
+
+    case 'RAITING_COMPANY_ERROR' :
+    return {
+       ...state,
+       company :{
+         ...state,
+         showErrorMessage : true,
+         errorMessage : action.error.message
+       }
+    }
+
+    case 'COMMENT_COMPANY' :
+    return {
+      ...state,
+      company : action.company
+    }
+
+    case 'COMMENT_COMPANY_ERROR' :
+    return{
+      ...state,
+      company :{
+        ...state,
+        showErrorMessage : true,
+        errorMessage : action.error.message
+      }
+    }
+
       default :
         return state;
   }

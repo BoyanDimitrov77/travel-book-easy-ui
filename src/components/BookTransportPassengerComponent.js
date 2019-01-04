@@ -4,16 +4,7 @@ import { connect } from 'react-redux';
 import { updatePassengerField } from '../store/actions/flightActions'
 
 class BookTransportPassengerComponent extends Component{
-  _isMounted = false;
-
-  componentDidMount(){
-    this._isMounted = true;
-  }
-
-  componentWillUnmount(){
-      this._isMounted = false;
-  }
-
+  
   handleChange = async (event, idx) => {
      const { target } = event;
      const value = target.type === 'checkbox' ? target.checked : target.value;

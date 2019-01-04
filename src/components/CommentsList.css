@@ -1,0 +1,14 @@
+.comment-box{
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+  margin-top: 30px;
+}
+.user-comment{
+  width: 70%;
+  margin-left: 10px;
+}
+.wrap-box-comments{
+  width: 90%;
+}
