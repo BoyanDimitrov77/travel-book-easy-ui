@@ -85,6 +85,13 @@ render(){
     trainsLink = <NavbarBrand href="/trains/">Trains</NavbarBrand>
   }
 
+let flightsAdminLink;
+let usersAdminLink;
+  if(isAdmin && authUser){
+    flightsAdminLink = <NavbarBrand href="/admin/flights/">Flights</NavbarBrand>
+    usersAdminLink = <NavbarBrand href="/admin/users/">Users</NavbarBrand>
+  }
+
   return (
         <div>
           <Navbar color="light" light expand="md">
@@ -92,11 +99,11 @@ render(){
             <NavbarToggler onClick={this.toggle} />
 
                       {flightsLink}
-
                       {busesLink}
-
                       {trainsLink}
 
+                      {usersAdminLink}
+                      {flightsAdminLink}
 
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>

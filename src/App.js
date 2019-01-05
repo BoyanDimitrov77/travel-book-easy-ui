@@ -10,6 +10,9 @@ import CreateFlight from './admin/CreateFlight';
 import CreateTrain from './admin/CreateTrain';
 import CreateBus from './admin/CreateBus';
 import CreateCompany from './admin/CreateCompany';
+import FlightsAdmin from './admin/FlightsAdmin';
+import EditFlight from './admin/EditFlight'
+import UsersAdmin from './admin/UsersAdmin';
 import Flights from './components/Flights'
 import BookTransport from './components/BookTransport'
 import PaymentComponent from './components/PaymentComponent'
@@ -44,6 +47,12 @@ class App extends Component {
 
                   <Route path="/createCompany"
                     render={(props) => <CreateCompany />}></Route>
+
+                  <Route path="/admin/flights" component={FlightsAdmin} />
+
+                  <Route path="/admin/edit/flight/:id" component={EditFlight} />
+
+                  <Route path="/admin/users" component={UsersAdmin} />
 
                   <Route path="/flights"
                       render={(props) => <Flights />}></Route>

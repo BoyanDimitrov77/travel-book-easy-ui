@@ -10,10 +10,12 @@ import imageReducer from './imageReducer';
 import clientTokenReducer from './clientTokenReducer'
 import paymentReducer from './paymentReducer'
 import userProfileReducer from './userProfileReducer'
+import adminReducer from './adminReducer'
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 
 const appReducer = combineReducers({
+  admin : adminReducer,
   auth: authReducer,
   registration : registrationReducer,
   flight : flightReducer,
