@@ -1,4 +1,4 @@
-import { createFlightRequest, getAllFlights, fetchImage, searchFlights } from '../../util/API_REST';
+import { createFlightRequest, getAllFlights, fetchImage, searchFlights, updateFlight } from '../../util/API_REST';
 
 
 export const createFlight = (flight) => {

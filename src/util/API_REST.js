@@ -556,3 +556,51 @@ export function changeUserInfo(requestObject){
     );
 
 };
+
+export function updateFlight(requestObject){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/flight/update",
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  },
+      body: JSON.stringify(requestObject)
+
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function getAllUsers(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/users/all",
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  }
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
