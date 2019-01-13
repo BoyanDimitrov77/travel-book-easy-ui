@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './ImageUploadComponent.css';
+import noImagePlaceholder from '../images/no-image-icon.png';
 import { connect } from 'react-redux';
 import { selectImage } from '../store/actions/imageActions';
+import ProgressiveImage from 'react-progressive-image'
+
 class ImageUploadComponent extends Component{
 
   handleChange = async (event) => {
@@ -23,14 +26,16 @@ class ImageUploadComponent extends Component{
     let imagePreviewUrl = imagePreviewUrlState;
     let $imagePreview = null;
 
-    if(imagePreviewUrl){
-      $imagePreview = (<img src={imagePreviewUrl} alt='selected file'/>);
-    }
+      $imagePreview = (<ProgressiveImage src={imagePreviewUrl} placeholder={noImagePlaceholder}>
+            {(src, loading) => (
+              <img  className="img-circular" style={{ opacity: loading ? 0.5 : 1 }} src={src} alt="" />
+            )}
+          </ProgressiveImage>);
 
     return (
-      <div>
+      <div className="profile-change-picture-wrapper">
         {$imagePreview}
-          <input className="imageClass" type="file" label="Upload Company Logo" onChange={ (e) => {
+          <input id="fileIput" className="imageClass" type="file" label="Upload Company Logo" onChange={ (e) => {
                       this.handleChange(e)
                     } } />
       </div>

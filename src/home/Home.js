@@ -3,7 +3,6 @@ import AppNavBar from '../common/AppNavBar';
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { resetAppWithoutUser } from '../store/actions/rootActions';
-import { Container } from 'reactstrap'
 
 class Home extends Component{
 

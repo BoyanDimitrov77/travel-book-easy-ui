@@ -35,15 +35,6 @@ const flightReducer = (state = initState, action) => {
     return {
       ...state
     }
-    case 'GET_IMAGE' :
-    return {
-      ...state,
-      image : action.image
-    }
-    case 'GET_IMAGE_ERROR' :
-    return {
-      ...state
-    }
     case 'RESET_PASSENGERS' :
     return{
       ...state,

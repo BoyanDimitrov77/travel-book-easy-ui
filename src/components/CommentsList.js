@@ -1,17 +1,18 @@
 import React from 'react';
-import img from './user.png';
-import Avatar from 'react-avatar';
 import './CommentsList.css'
 import { connect } from 'react-redux'
+import ImageComponent from './ImageComponent'
 
 const CommentsList = (props) =>{
+
   return(
       <div className="wrap-box-comments">
       {
         props.companyComments && props.companyComments.map(comment=>{
+            console.log(comment.creator.profilePicture);
           return (
                 <div className="comment-box" key={comment.id}>
-                    <Avatar size="50" src={img} round={true} />
+                  <ImageComponent imageUrl={comment.creator.profilePicture ? comment.creator.profilePicture.thumbnailPicture.value : null}/>
                     <div className="user-comment">
                       <h5>{comment.creator.fullName}</h5>
                       {comment.comment}

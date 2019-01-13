@@ -2,25 +2,12 @@ import React, { Component } from 'react';
 import {Container, Alert } from 'reactstrap';
 import AppNavBar from '../common/AppNavBar';
 import './CompanyComponent.css'
-import { getCompany, userRatingCompany } from '../store/actions/companyActions';
 import CommentInput from './CommentInput'
 import CommentsList from './CommentsList'
 import CompanyInfo from './CompanyInfo'
 import { connect } from 'react-redux'
 
 class CompanyComponent extends Component{
-
-  componentDidMount(){
-    this.props.getCompany(this.props.companyId);
-  }
-
-  changeRating = ( newRating, name ) => {
-
-    console.log(newRating);
-    this.props.userRatingCompany(this.props.company.id,newRating)
-      }
-
-
   render(){
     return(
           <div>
@@ -32,7 +19,7 @@ class CompanyComponent extends Component{
                   </Container>
                 ):(
                   <Container className= "ContainerForm container-form-width">
-                    <CompanyInfo company={this.props.company} changeRating={this.changeRating}/>
+                    <CompanyInfo companyId={this.props.companyId} />
                     <CommentInput/>
                     <CommentsList/>
                   </Container>
@@ -55,11 +42,4 @@ const mapStateToProps = (state, ownProps) =>{
   }
 }
 
-const mapDispactchToProps = (dispatch) =>{
-  return {
-      getCompany : (companyId) => dispatch(getCompany(companyId)),
-      userRatingCompany : (companyId, rating) => dispatch(userRatingCompany(companyId, rating))
-  }
-}
-
-export default connect(mapStateToProps, mapDispactchToProps) (CompanyComponent);
+export default connect(mapStateToProps) (CompanyComponent);

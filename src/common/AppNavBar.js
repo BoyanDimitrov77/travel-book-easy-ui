@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import ImageComponent from '../components/ImageComponent'
 import { connect } from 'react-redux';
 import { resetApp } from '../store/actions/rootActions';
 
@@ -49,7 +50,11 @@ render(){
   let profileLink;
 
   if(authUser){
-    profileLink = <NavLink href="/userProfile/">Profile</NavLink>;
+     const profilePicture = this.props.profilePicture ? (
+       <ImageComponent imageUrl={this.props.profilePicture} isProfile={true}/>
+       ) : null;
+
+    profileLink = <NavLink href="/userProfile/"> {profilePicture}</NavLink>;
   }
 
   let uncontrolledDropdown;
@@ -132,6 +137,7 @@ let usersAdminLink;
 const mapStateToProps = (state) =>{
   return {
     authUser : state.auth.user,
+    profilePicture : state.auth.user ? state.auth.user.profilePicture.thumbnailPicture.value : null,
     isAdmin : state.auth.isAdmin
   }
 }

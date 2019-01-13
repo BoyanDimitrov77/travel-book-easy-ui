@@ -1,15 +1,13 @@
 import React from 'react';
 import {Container, ListGroup, ListGroupItem, Badge, Button } from 'reactstrap';
-import img from './512.png';
+import ImageComponent from './ImageComponent'
 import './ListTransportComponent.css'
-import Avatar from 'react-avatar';
 import { Link } from 'react-router-dom'
 
 const ListTransportComponent = ({flights}) =>{
 
     const flightList = flights.length ? (
       flights.map(flight =>{
-        // console.log(this.props.getImage( 'https://' + flight.company.companyLogo.thumbnailPicture.value));
         return (
         <ListGroupItem key={flight.id}>
             <div className="transport-box" >
@@ -17,7 +15,7 @@ const ListTransportComponent = ({flights}) =>{
 
                <h3><Badge color="secondary"> {flight.company.name} </Badge></h3>
                <Link to={'/company/' + flight.company.id}>
-                 <Avatar src={img} round={true} />
+                 <ImageComponent imageUrl={flight.company.companyLogo ? flight.company.companyLogo.thumbnailPicture.value : null}/>
                </Link>
                </div>
 

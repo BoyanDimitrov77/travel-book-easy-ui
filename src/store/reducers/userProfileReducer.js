@@ -2,7 +2,10 @@ const initState = {
   isSuccessfullChangePassowordOperation : false,
   showErroMessageChangePassword : false,
   isSuccessfullUpdateUserInfoOperation : false,
-  showErroMessageUserInfo :  false
+  showErroMessageUserInfo :  false,
+  isSuccessfullChangeUserPictureOperation : false,
+  showErroMessageChangeUserPicture :  false,
+
 }
 
 const userProfileReducer = (state = initState, action) => {
@@ -33,7 +36,19 @@ const userProfileReducer = (state = initState, action) => {
       isSuccessfullUpdateUserInfoOperation : false,
       showErroMessageUserInfo :  true
     }
+    case 'UPDATE_USER_PROFILE_SUCCESS' :
+    return {
+      ...state,
+      isSuccessfullChangeUserPictureOperation : true,
+      showErroMessageChangeUserPicture :  false
+    }
 
+    case 'UPDATE_USER_PROFILE_ERROR' :
+    return{
+      ...state,
+      isSuccessfullChaneUserPictureOperation : false,
+      showErroMessageChangeUserPicture :  true
+    }
 
     default: return state;
 
