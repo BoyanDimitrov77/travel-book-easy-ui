@@ -14,9 +14,7 @@ class SearchComponent extends Component{
     this.state = {
       sortByPrice: false,
       sortByRating : false
-
     }
-    //this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = async (event) => {

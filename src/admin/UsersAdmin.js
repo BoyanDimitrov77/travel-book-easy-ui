@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import AppNavBar from '../common/AppNavBar';
-import { Container, Table } from 'reactstrap';
+import { Container, Table, Button } from 'reactstrap';
 import { connect } from 'react-redux';
-import { allUsers } from '../store/actions/adminActions';
+import { allUsers, enableUserAccount } from '../store/actions/adminActions';
 import { resetAppWithoutUser } from '../store/actions/rootActions'
+import "./UsersAdmin.css"
 
 class UsersAdmin extends Component{
 
@@ -12,11 +13,24 @@ class UsersAdmin extends Component{
     this.props.allUsers();
   }
 
-  render(){
+  enableUser = (user,idx) => () =>{
+    this.props.enableUserAccount(true,user.id);
+    this.setState({
+      [idx+ "-userEnable"] : true
+    })
+  }
 
+  disableUser = (user, idx) => () =>{
+    this.props.enableUserAccount(false,user.id);
+    this.setState({
+      [idx+"-userEnable"] : false
+    })
+  }
+
+  render(){
         const{ users } = this.props;
         console.log(users);
-        const userRows = users ? (
+        let userRows = users ? (
            users.map((user, idx) =>{
             return(
             <tr key={user.id}>
@@ -25,6 +39,12 @@ class UsersAdmin extends Component{
               <td>{user.userName}</td>
               <td>{user.email}</td>
               <td>{user.userRole.join(",")}</td>
+              <td>
+                <div className="button-enable-user-wrapper">
+                <Button id={'enableButton' + idx} name={"btne-" + idx} color="success" disabled={this.state ? ( this.state[idx +"-userEnable"] != null ? this.state[idx +"-userEnable"] : user.enabled ): user.enabled} onClick={this.enableUser(user,idx)}>Enable</Button>
+                <Button id={'disableButton' + idx} name={"btnd-" + idx} color="danger" disabled={this.state ? ( this.state[idx +"-userEnable"] != null ? !this.state[idx +"-userEnable"] : !user.enabled ) : !user.enabled} onClick={this.disableUser(user,idx)} >Disable</Button>
+                </div>
+              </td>
             </tr>
             )
           })
@@ -64,7 +84,8 @@ const mapStateToProps = (state) =>{
 const mapDispactchToProps = (dispatch) =>{
   return{
     allUsers : () => dispatch(allUsers()),
-    resetAppWithoutUser : () => dispatch(resetAppWithoutUser())
+    resetAppWithoutUser : () => dispatch(resetAppWithoutUser()),
+    enableUserAccount : (enabled, userId) => dispatch(enableUserAccount(enabled, userId))
   }
 }
 
