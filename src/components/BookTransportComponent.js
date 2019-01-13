@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Badge, Input } from 'reactstrap';
-import Avatar from 'react-avatar';
-import img from './512.png';
 import { resetPassengers, addNewPassenger, setBookTrasnportParameter } from '../store/actions/flightActions'
+import ImageComponent from './ImageComponent'
 import { connect } from 'react-redux'
 
 class BookTransportInfoComponent extends Component{
@@ -50,13 +49,16 @@ render(){
 
         ) : null;
 
+        const companyLogo = flight && flight.company.companyLogo ? (
+          <ImageComponent imageUrl={flight.company.companyLogo.thumbnailPicture.value}/>
+        ) : null;
+
           const flightElement = flight ?  (
               <div className="book-transport">
 
                 <div>
                   <h3><Badge color="secondary">{flight.name}</Badge></h3>
-                  <Avatar src={img} round={true} />
-
+                  {companyLogo}
                 </div>
 
                 <div className="book-transport-info">

@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Container, Badge, Button } from 'reactstrap';
-import Avatar from 'react-avatar';
-import img from './512.png';
+import ImageComponent from './ImageComponent'
 import { Link } from 'react-router-dom'
 
 const BookTransportInfoComponent = (props) =>{
@@ -13,8 +12,7 @@ const BookTransportInfoComponent = (props) =>{
 
         <div>
           <h3><Badge color="secondary">{props.flightName}</Badge></h3>
-          <Avatar src={img} round={true} />
-
+          <ImageComponent imageUrl={props.companyLogo}/>
         </div>
 
         <div className="book-transport-info">
@@ -56,6 +54,7 @@ const mapStateToProps = (state)=>{
   return {
     flightName  : flight.name,
     companyName : flight.company.name,
+    companyLogo : flight.company.companyLogo ? flight.company.companyLogo.thumbnailPicture.value : null,
     locationFrom : flight.locationFrom.name,
     locationTo : flight.locationTo.name,
     travelClassName : travelClass.travelClass,

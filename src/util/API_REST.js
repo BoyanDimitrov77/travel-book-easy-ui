@@ -225,27 +225,51 @@ export function getAllFlights(){
 
 };
 
-export function fetchImage(imgeUrl){
-
-  var auth = 'Bearer ya29.Gl2BBkMuV9dPHOcasQYrFHt0wDZzAM2r9bYFYRslQXuvvzkZtvZGJE1l4MEFTrMG6NT_hYF5o3IBtShSFONUd-t-yOVti2iP76bZvt329ofGUj1UXuQXhdnnIEsYK9k';
+export function fetchImage(imgeUrl, token){
+  var auth = 'Bearer ' + token;
 
   const options = {
     url: imgeUrl,
     method: 'GET',
-     headers: {'Accept': 'application/json',
-        'Content-Type': 'application/json',
+     headers: {
              'Authorization' : auth }
 
   }
 
   return fetch(options.url, options)
   .then((response) =>{
-    return response;
-  }).then((data)=>{
-    return data;
+    return response.arrayBuffer();
+  }).then((buffer)=>{
+    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
   })
 
 };
+
+
+export function getGoogleClientToken(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/users/accessTokenGD",
+    method: 'GET',
+     headers: {'Content-Type': 'application/json',
+                 'Authorization' : auth }
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
+
+};
+
 
 export function bookFlightRequest(flightId){
 
@@ -602,5 +626,30 @@ export function getAllUsers(){
             return json;
         })
     );
+
+};
+
+export function uploadProfilePicture(profilePicture){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+  const options = {
+    url: API_BASE_URL + "/users/uploadProfilePhoto/",
+    method: 'POST',
+     headers: {
+                 'Authorization' : auth },
+    body: profilePicture
+
+  }
+
+  return fetch(options.url, options)
+  .then(response =>
+      response.json().then(json => {
+          if(!response.ok) {
+              return Promise.reject(json);
+          }
+          return json;
+      })
+  );
 
 };
