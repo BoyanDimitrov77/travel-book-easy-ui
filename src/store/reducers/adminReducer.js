@@ -36,8 +36,22 @@ const adminReducer = (state = initState, action) => {
         }
     }
 
-    default : return state;
+    case 'ENABLE_USER_ACCOUNT_SUCCESS' :
+    let updatedUsers = state.users;
+    let index = updatedUsers.findIndex(user => user.id == action.user.id);
+    updatedUsers.splice(index, 1, action.user);
 
+    return {
+      ...state,
+      users : updatedUsers
+    }
+
+    case 'ENABLE_USER_ACCOUNT_ERROR' :
+    return {
+      ...state
+    }
+
+    default : return state;
   }
 }
 

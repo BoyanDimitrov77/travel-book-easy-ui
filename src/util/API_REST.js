@@ -653,3 +653,26 @@ export function uploadProfilePicture(profilePicture){
   );
 
 };
+
+export function enableUser(enabled, userId){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/users/enableUser/" + userId + "?enabled=" + enabled,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  }
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};

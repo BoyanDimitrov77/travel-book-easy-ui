@@ -137,7 +137,7 @@ let usersAdminLink;
 const mapStateToProps = (state) =>{
   return {
     authUser : state.auth.user,
-    profilePicture : state.auth.user ? state.auth.user.profilePicture.thumbnailPicture.value : null,
+    profilePicture : state.auth.user ? (state.auth.user.profilePicture ? state.auth.user.profilePicture.thumbnailPicture.value : null) : null,
     isAdmin : state.auth.isAdmin
   }
 }

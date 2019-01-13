@@ -1,4 +1,4 @@
-import { updateFlight, getAllUsers } from '../../util/API_REST';
+import { updateFlight, getAllUsers, enableUser } from '../../util/API_REST';
 
 export const updateFlightInfo = (requestObject) => {
   return (dispatch, getState) => {
@@ -25,6 +25,22 @@ export const allUsers = () => {
           }).catch(error => {
               if(error.status === 500) {
                 dispatch({type: 'ALL_USERS_ERROR', error : error });
+              }
+            });
+
+
+  }
+}
+
+export const enableUserAccount = (enabled, userId) => {
+  return (dispatch, getState) => {
+
+    enableUser(enabled,userId)
+      .then(response => {
+          dispatch({type: 'ENABLE_USER_ACCOUNT_SUCCESS', user : response });
+          }).catch(error => {
+              if(error.status === 500) {
+                dispatch({type: 'ENABLE_USER_ACCOUNT_ERROR', error : error });
               }
             });
 
