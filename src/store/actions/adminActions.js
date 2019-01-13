@@ -88,3 +88,9 @@ export const updateCompanyNameAdminWithLogo = (companyId, name, imageFile) => {
             });
   }
 }
+
+export const loadTravelClasses = (travelClasses) => {
+  return (dispatch, getState) => {
+    dispatch({type:"LOAD_TRAVEL_CLASSES_ADMIN", travelClasses : travelClasses})
+  }
+}

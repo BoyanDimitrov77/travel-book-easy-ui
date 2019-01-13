@@ -27,6 +27,12 @@ const traveClassReducer = (state = initState, action) => {
         travelClasses : updatedTravelClasses
       }
 
+      case 'LOAD_TRAVEL_CLASSES_ADMIN' :
+      return {
+        ...state,
+        travelClasses : action.travelClasses
+      }
+
     default : return state;
   }
 }
