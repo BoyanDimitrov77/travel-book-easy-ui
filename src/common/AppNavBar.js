@@ -92,9 +92,11 @@ render(){
 
 let flightsAdminLink;
 let usersAdminLink;
+let companiesAdminLink;
   if(isAdmin && authUser){
     flightsAdminLink = <NavbarBrand href="/admin/flights/">Flights</NavbarBrand>
     usersAdminLink = <NavbarBrand href="/admin/users/">Users</NavbarBrand>
+    companiesAdminLink = <NavbarBrand href="/admin/companies">Companies</NavbarBrand>
   }
 
   return (
@@ -109,6 +111,7 @@ let usersAdminLink;
 
                       {usersAdminLink}
                       {flightsAdminLink}
+                      {companiesAdminLink}
 
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>

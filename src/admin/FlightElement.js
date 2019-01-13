@@ -25,7 +25,7 @@ const FlightElement = (props) =>{
              <div>
                <h5>From price : <Badge color="secondary">$ {props.flight.price}</Badge></h5>
                <Link to={'/admin/edit/flight/' + props.flight.id} >
-                   <Button  className="book-button" color="success" >Edit</Button>
+                   <Button color="success" >Edit</Button>
                </Link>
              </div>
 

@@ -79,7 +79,8 @@ class Login extends Component{
     const { email, password } = this.state;
     const {authError} = this.props;
 
-      if(this.props.authUser) return <Redirect to='/' />
+      if(this.props.authUser && !this.props.isAdmin) return <Redirect to='/' />
+      if(this.props.authUser && this.props.isAdmin) return <Redirect to='/admin/users' />
 
       return (
         <div>
@@ -156,7 +157,8 @@ class Login extends Component{
 const mapStateToProps = (state) =>{
   return{
     authError : state.auth.authError,
-    authUser : state.auth.user
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 

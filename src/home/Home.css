@@ -1,0 +1,15 @@
+.home-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+}
+.wrapper-container{
+  width: 47% !important;
+}
+.book-transport-info-preview{
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+}

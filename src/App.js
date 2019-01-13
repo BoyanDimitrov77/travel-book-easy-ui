@@ -13,6 +13,8 @@ import CreateCompany from './admin/CreateCompany';
 import FlightsAdmin from './admin/FlightsAdmin';
 import EditFlight from './admin/EditFlight'
 import UsersAdmin from './admin/UsersAdmin';
+import CompaniesAdmin from './admin/CompaniesAdmin';
+import EditCompany from './admin/EditCompany'
 import Flights from './components/Flights'
 import BookTransport from './components/BookTransport'
 import PaymentComponent from './components/PaymentComponent'
@@ -53,6 +55,11 @@ class App extends Component {
                   <Route path="/admin/edit/flight/:id" component={EditFlight} />
 
                   <Route path="/admin/users" component={UsersAdmin} />
+
+                <Route path="/admin/companies" component={CompaniesAdmin} />
+
+                <Route path="/admin/edit/company/:id" component={EditCompany} />
+
 
                   <Route path="/flights"
                       render={(props) => <Flights />}></Route>
