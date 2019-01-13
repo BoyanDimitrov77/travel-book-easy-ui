@@ -52,7 +52,7 @@ render(){
   if(authUser){
      const profilePicture = this.props.profilePicture ? (
        <ImageComponent imageUrl={this.props.profilePicture} isProfile={true}/>
-       ) : null;
+       ) : (<ImageComponent isProfile={true}/>);
 
     profileLink = <NavLink href="/userProfile/"> {profilePicture}</NavLink>;
   }
