@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { allUsers, enableUserAccount } from '../store/actions/adminActions';
 import { resetAppWithoutUser } from '../store/actions/rootActions'
 import "./UsersAdmin.css"
+import { Redirect } from 'react-router-dom';
 
 class UsersAdmin extends Component{
 
@@ -28,6 +29,12 @@ class UsersAdmin extends Component{
   }
 
   render(){
+    const authUser = this.props.authUser;
+    const isAdmin = this.props.isAdmin;
+    console.log("Home authUser:" + authUser);
+    if(!authUser) return <Redirect to='/login' />
+    if(!isAdmin) return <Redirect to='/' />
+
         const{ users } = this.props;
         console.log(users);
         let userRows = users ? (
@@ -77,7 +84,9 @@ class UsersAdmin extends Component{
 
 const mapStateToProps = (state) =>{
   return{
-    users : state.admin.users
+    users : state.admin.users,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 
