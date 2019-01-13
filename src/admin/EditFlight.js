@@ -3,11 +3,12 @@ import AppNavBar from '../common/AppNavBar';
 import {Container, Col,
 Button, Alert } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import CreateTravelClass from './CreateTravelClass';
+import EditTravelClass from './EditTravelClass';
 import { connect } from 'react-redux';
 import { updateFlightInfo } from '../store/actions/adminActions';
 import { getAllCompany } from '../store/actions/companyActions';
 import { addTravelClass } from '../store/actions/traveClassActions'
+import { loadTravelClasses } from '../store/actions/adminActions'
 import { Redirect } from 'react-router-dom';
 
 class EditFlight extends Component {
@@ -31,6 +32,8 @@ class EditFlight extends Component {
 
    componentDidMount(){
      this.props.companyList(this.state);
+     console.log(this.props.flight.company.travelClasses);
+     this.props.loadTravelClasses(this.props.flight.travelClasses)
    }
 
     handleChange = async (event) => {
@@ -40,6 +43,10 @@ class EditFlight extends Component {
        await this.setState({
          [ name ]: value,
        });
+    }
+
+    addTravelClass = (e)=>{
+      this.props.addTravelClass({'travelClass':'', 'maxSeats': '', 'price': ''});
     }
 
     handleValidSubmit(e) {
@@ -98,6 +105,7 @@ class EditFlight extends Component {
           flightObjectUpdateRequest["price"] = flightObject.price;
         }
 
+        flightObjectUpdateRequest["travelClasses"] = this.props.travelClasses;
         console.log(flightObjectUpdateRequest);
         this.props.updateFlightInfo(flightObjectUpdateRequest);
 
@@ -214,6 +222,10 @@ class EditFlight extends Component {
                                 this.handleChange(e)
                               } } />
                   </Col>
+                  <Col>
+                    <Button onClick={this.addTravelClass}>Add new travel class</Button>
+                    <EditTravelClass />
+                  </Col>
                   <Button>Submit</Button>
 
               </AvForm>
@@ -246,7 +258,8 @@ class EditFlight extends Component {
   return {
     companyList : (companies) => dispatch(getAllCompany(companies)),
     addTravelClass : (travelClass) => dispatch(addTravelClass(travelClass)),
-    updateFlightInfo : (requestObject) => dispatch(updateFlightInfo(requestObject))
+    updateFlightInfo : (requestObject) => dispatch(updateFlightInfo(requestObject)),
+    loadTravelClasses : (travelClasses) => dispatch(loadTravelClasses(travelClasses))
     }
   }
 
