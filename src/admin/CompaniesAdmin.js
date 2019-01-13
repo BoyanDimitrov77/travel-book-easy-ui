@@ -5,6 +5,7 @@ import { getAllCompany } from '../store/actions/companyActions'
 import { resetAppWithoutUser } from '../store/actions/rootActions';
 import CompanyElement from './CompanyElement'
 import { Table, Container } from 'reactstrap'
+import { Redirect } from 'react-router-dom';
 
 class CompaniesAdmin extends Component{
 
@@ -14,6 +15,12 @@ class CompaniesAdmin extends Component{
   }
 
   render(){
+
+    const authUser = this.props.authUser;
+    const isAdmin = this.props.isAdmin;
+    console.log("Home authUser:" + authUser);
+    if(!authUser) return <Redirect to='/login' />
+    if(!isAdmin) return <Redirect to='/' />
 
     const { companies } = this.props;
 
@@ -53,7 +60,9 @@ class CompaniesAdmin extends Component{
 
 const mapStateToProps = (state) =>{
   return {
-    companies : state.companies.companies
+    companies : state.companies.companies,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 

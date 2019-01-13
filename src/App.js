@@ -7,8 +7,6 @@ import SignUp from './login/SignUp';
 import ForgotPassword from './login/ForgotPassword'
 import ResetPassword from './login/ResetPassword'
 import CreateFlight from './admin/CreateFlight';
-import CreateTrain from './admin/CreateTrain';
-import CreateBus from './admin/CreateBus';
 import CreateCompany from './admin/CreateCompany';
 import FlightsAdmin from './admin/FlightsAdmin';
 import EditFlight from './admin/EditFlight'
@@ -40,12 +38,6 @@ class App extends Component {
 
             <Route path="/CreateFlight"
                render={(props) => <CreateFlight/>}></Route>
-
-             <Route path="/createTrain"
-                  render={(props) => <CreateTrain />}></Route>
-
-                <Route path="/createBus"
-                  render={(props) => <CreateBus />}></Route>
 
                   <Route path="/createCompany"
                     render={(props) => <CreateCompany />}></Route>

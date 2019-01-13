@@ -68,12 +68,6 @@ render(){
                                     <NavLink href="/createFlight/">Flight</NavLink>
                                   </DropdownItem>
                                   <DropdownItem>
-                                  <NavLink href="/createTrain/">Train</NavLink>
-                                  </DropdownItem>
-                                  <DropdownItem>
-                                  <NavLink href="/createBus/">Bus</NavLink>
-                                  </DropdownItem>
-                                  <DropdownItem>
                                   <NavLink href="/createCompany/">Company</NavLink>
                                   </DropdownItem>
                                 </DropdownMenu>
@@ -82,12 +76,8 @@ render(){
   }
 
   let flightsLink;
-  let busesLink;
-  let trainsLink;
   if(!isAdmin && authUser){
     flightsLink = <NavbarBrand href="/flights/">Flights</NavbarBrand>
-    busesLink = <NavbarBrand href="/buses/">Buses</NavbarBrand>
-    trainsLink = <NavbarBrand href="/trains/">Trains</NavbarBrand>
   }
 
 let flightsAdminLink;
@@ -106,8 +96,6 @@ let companiesAdminLink;
             <NavbarToggler onClick={this.toggle} />
 
                       {flightsLink}
-                      {busesLink}
-                      {trainsLink}
 
                       {usersAdminLink}
                       {flightsAdminLink}

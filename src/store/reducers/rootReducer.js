@@ -4,8 +4,6 @@ import flightReducer from './flightReducer';
 import fligtBookReducer from './flightBookReducer'
 import companyReducer from './companyReducer';
 import traveClassReducer from './traveClassReducer';
-import trainReducer from './trainReducer';
-import busReducer from './busReducer';
 import imageReducer from './imageReducer';
 import clientTokenReducer from './clientTokenReducer'
 import paymentReducer from './paymentReducer'
@@ -21,8 +19,6 @@ const appReducer = combineReducers({
   registration : registrationReducer,
   flight : flightReducer,
   flightBook : fligtBookReducer,
-  train: trainReducer,
-  bus : busReducer,
   companies : companyReducer,
   travelClasses : traveClassReducer,
   image : imageReducer,
