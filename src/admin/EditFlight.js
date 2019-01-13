@@ -107,19 +107,15 @@ class EditFlight extends Component {
       console.log("error")
     }
 
-    // addTravelClass = (e)=>{
-    //   this.props.addTravelClass({'travelClass':'', 'maxSeats': '', 'price': ''});
-    // }
-
-
     render() {
+
+      if(!this.props.authUser) return <Redirect to='/login' />
+      if(!this.props.isAdmin) return <Redirect to='/' />
+
        const companies = this.props.companies;
        const companyOption = companies.map((company)=>
         <option key={company.id} id={company.id} value={company.id}>{company.name}</option>
         );
-
-        if(!this.props.authUser) return <Redirect to='/login' />
-        if(!this.props.isAdmin) return <Redirect to='/' />
 
         return (
           <div>

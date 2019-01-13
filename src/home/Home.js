@@ -18,8 +18,10 @@ class Home extends Component{
 
   render() {
       const authUser = this.props.authUser;
+      const isAdmin = this.props.isAdmin;
       console.log("Home authUser:" + authUser);
       if(!authUser) return <Redirect to='/login' />
+      if(isAdmin) return <Redirect to='/admin/users' />
       return (
         <div>
               <AppNavBar/>
@@ -40,7 +42,8 @@ class Home extends Component{
 }
 const mapStateToProps = (state) =>{
   return {
-      authUser : state.auth.user
+      authUser : state.auth.user,
+      isAdmin : state.auth.isAdmin
   }
 }
 

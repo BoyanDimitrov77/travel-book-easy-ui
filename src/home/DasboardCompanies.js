@@ -16,9 +16,11 @@ class DasboardCompanies extends Component{
             return (
               <tr key={company.id}>
                 <th scope="row">{idx +1}</th>
-                <Link to={'/company/' + company.id}>
-                  <td>{company.name}</td>
-                </Link>
+                <td>
+                  <Link to={'/company/' + company.id}>
+                    {company.name}
+                  </Link>
+                </td>
                 <td>
                 <StarRatings
                   rating={company.rating ? company.rating : 0 }

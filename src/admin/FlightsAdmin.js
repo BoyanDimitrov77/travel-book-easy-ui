@@ -5,6 +5,7 @@ import { allFlights } from '../store/actions/flightActions'
 import { resetAppWithoutUser } from '../store/actions/rootActions';
 import FlightElement from './FlightElement'
 import { Container, ListGroup } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
 class FlightsAdmin extends Component{
 
@@ -14,6 +15,13 @@ class FlightsAdmin extends Component{
   }
 
   render(){
+
+    const authUser = this.props.authUser;
+    const isAdmin = this.props.isAdmin;
+    console.log("Home authUser:" + authUser);
+    if(!authUser) return <Redirect to='/login' />
+    if(!isAdmin) return <Redirect to='/' />
+
     const { flights } = this.props;
 
     const flightElements = flights.length ? (
@@ -39,7 +47,9 @@ class FlightsAdmin extends Component{
 
 const mapStateToProps = (state) =>{
   return {
-    flights : state.flight.flights
+    flights : state.flight.flights,
+    authUser : state.auth.user,
+    isAdmin : state.auth.isAdmin
   }
 }
 
