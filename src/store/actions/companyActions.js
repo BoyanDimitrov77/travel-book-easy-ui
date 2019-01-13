@@ -14,6 +14,8 @@ export const createCompany = (company, imageFile) =>{
 
     createCompanyRequest(company)
        .then(response => {
+              dispatch({type: 'CREATE_COMPANY', company : response })
+
               const formData = new FormData();
                formData.append('file',imageFile);
 
@@ -21,14 +23,10 @@ export const createCompany = (company, imageFile) =>{
                .then(response=>{
                  dispatch({type: 'CREATE_COMPANY', company : response })
                }).catch(error=>{
-                 if(error.status === 500) {
                    dispatch({type: 'CREATE_COMPANY_ERROR', error : error })
-                 }
                });
            }).catch(error => {
-               if(error.status === 500) {
                  dispatch({type: 'CREATE_COMPANY_ERROR', error : error })
-               }
            });
          }
 }

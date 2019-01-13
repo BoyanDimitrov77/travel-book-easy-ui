@@ -676,3 +676,72 @@ export function enableUser(enabled, userId){
     );
 
 };
+
+export function getAllFlightBookings(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/users/allFlightBookings",
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  }
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function getAllCompaniesOrderByRating(){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/company/allCompanyOrderByRating",
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  }
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};
+
+export function updateCompanyName(companyId, name){
+
+  var auth = 'Basic ' + new Buffer(localStorage.getItem(USERNAME) + ':' + localStorage.getItem(PASSWORD)).toString('base64');
+
+    const options = {
+      url: API_BASE_URL + "/company/updateCompany/" + companyId + "?name=" + name,
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json',
+      'Authorization' : auth  }
+    }
+
+    return fetch(options.url, options)
+    .then(response =>
+        response.json().then(json => {
+            if(!response.ok) {
+                return Promise.reject(json);
+            }
+            return json;
+        })
+    );
+
+};

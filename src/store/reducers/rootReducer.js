@@ -11,6 +11,7 @@ import clientTokenReducer from './clientTokenReducer'
 import paymentReducer from './paymentReducer'
 import userProfileReducer from './userProfileReducer'
 import adminReducer from './adminReducer'
+import homeReducer from './homeReducer'
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage'
 
@@ -27,7 +28,8 @@ const appReducer = combineReducers({
   image : imageReducer,
   clientToken : clientTokenReducer,
   payment : paymentReducer,
-  userProfile : userProfileReducer
+  userProfile : userProfileReducer,
+  home : homeReducer
 });
 
 const rootReducer = (state, action) =>{

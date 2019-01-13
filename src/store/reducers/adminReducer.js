@@ -3,6 +3,10 @@ const initState = {
     isSuccessfullOperation : false,
     showOperationStatusMessage : false
   },
+  editCompany:{
+    isSuccessfullOperation : false,
+    showOperationStatusMessage : false
+  },
   users : null,
 }
 
@@ -49,6 +53,24 @@ const adminReducer = (state = initState, action) => {
     case 'ENABLE_USER_ACCOUNT_ERROR' :
     return {
       ...state
+    }
+
+    case 'UPDATE_COMPANY' :
+    return {
+      ...state,
+      editCompany:{
+        isSuccessfullOperation : true,
+        showOperationStatusMessage : true
+      }
+    }
+
+    case 'UPDATE_COMPANY_ERROR' :
+    return {
+      ...state,
+      editCompany:{
+        isSuccessfullOperation : false,
+        showOperationStatusMessage : true
+      }
     }
 
     default : return state;
